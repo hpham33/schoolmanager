@@ -5,106 +5,106 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
-  Article = mongoose.model('Article'),
+  Student = mongoose.model('Student'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
- * Create a article
+ * Create a student
  */
 exports.create = function (req, res) {
-  var article = new Article(req.body);
-  article.user = req.user;
+  var student = new Student(req.body);
+  student.user = req.user;
 
-  article.save(function (err) {
+  student.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(student);
     }
   });
 };
 
 /**
- * Show the current article
+ * Show the current student
  */
 exports.read = function (req, res) {
-  res.json(req.article);
+  res.json(req.student);
 };
 
 /**
- * Update a article
+ * Update a student
  */
 exports.update = function (req, res) {
-  var article = req.article;
+  var student = req.student;
 
-  article.title = req.body.title;
-  article.content = req.body.content;
+  student.title = req.body.title;
+  student.content = req.body.content;
 
-  article.save(function (err) {
+  student.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(student);
     }
   });
 };
 
 /**
- * Delete an article
+ * Delete an student
  */
 exports.delete = function (req, res) {
-  var article = req.article;
+  var student = req.student;
 
-  article.remove(function (err) {
+  student.remove(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(student);
     }
   });
 };
 
 /**
- * List of Articles
+ * List of Students
  */
 exports.list = function (req, res) {
-  Article.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
+  Student.find().sort('-created').populate('user', 'displayName').exec(function (err, students) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(articles);
+      res.json(students);
     }
   });
 };
 
 /**
- * Article middleware
+ * Student middleware
  */
-exports.articleByID = function (req, res, next, id) {
+exports.studentByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Article is invalid'
+      message: 'Student is invalid'
     });
   }
 
-  Article.findById(id).populate('user', 'displayName').exec(function (err, article) {
+  Student.findById(id).populate('user', 'displayName').exec(function (err, student) {
     if (err) {
       return next(err);
-    } else if (!article) {
+    } else if (!student) {
       return res.status(404).send({
-        message: 'No article with that identifier has been found'
+        message: 'No student with that identifier has been found'
       });
     }
-    req.article = article;
+    req.student = student;
     next();
   });
 };

@@ -1,33 +1,33 @@
 'use strict';
 
 // Setting up route
-angular.module('articles').config(['$stateProvider',
+angular.module('students').config(['$stateProvider',
   function ($stateProvider) {
-    // Articles state routing
+    // Students state routing
     $stateProvider
-      .state('articles', {
+      .state('students', {
         abstract: true,
-        url: '/articles',
+        url: '/students',
         template: '<ui-view/>'
       })
-      .state('articles.list', {
+      .state('students.list', {
         url: '',
-        templateUrl: 'modules/articles/client/views/list-articles.client.view.html'
+        templateUrl: 'modules/students/client/views/list-students.client.view.html'
       })
-      .state('articles.create', {
+      .state('students.create', {
         url: '/create',
-        templateUrl: 'modules/articles/client/views/create-article.client.view.html',
+        templateUrl: 'modules/students/client/views/create-student.client.view.html',
         data: {
           roles: ['user', 'admin']
         }
       })
-      .state('articles.view', {
-        url: '/:articleId',
-        templateUrl: 'modules/articles/client/views/view-article.client.view.html'
+      .state('students.view', {
+        url: '/:studentId',
+        templateUrl: 'modules/students/client/views/view-student.client.view.html'
       })
-      .state('articles.edit', {
-        url: '/:articleId/edit',
-        templateUrl: 'modules/articles/client/views/edit-article.client.view.html',
+      .state('students.edit', {
+        url: '/:studentId/edit',
+        templateUrl: 'modules/students/client/views/edit-student.client.view.html',
         data: {
           roles: ['user', 'admin']
         }

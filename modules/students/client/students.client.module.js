@@ -1,3 +1,4 @@
-/**
- * Created by Hien on 9/24/2015.
- */
+'use strict';
+
+// Use Application configuration module to register a new module
+ApplicationConfiguration.registerModule('students');

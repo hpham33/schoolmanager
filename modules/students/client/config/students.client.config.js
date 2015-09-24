@@ -1,26 +1,26 @@
 'use strict';
 
-// Configuring the Articles module
-angular.module('articles').run(['Menus',
+// Configuring the Students module
+angular.module('students').run(['Menus',
   function (Menus) {
-    // Add the articles dropdown item
+    // Add the students dropdown item
     Menus.addMenuItem('topbar', {
-      title: 'Articles',
-      state: 'articles',
+      title: 'Students',
+      state: 'students',
       type: 'dropdown',
       roles: ['*']
     });
 
     // Add the dropdown list item
-    Menus.addSubMenuItem('topbar', 'articles', {
-      title: 'List Articles',
-      state: 'articles.list'
+    Menus.addSubMenuItem('topbar', 'students', {
+      title: 'List Students',
+      state: 'students.list'
     });
 
     // Add the dropdown create item
-    Menus.addSubMenuItem('topbar', 'articles', {
-      title: 'Create Articles',
-      state: 'articles.create',
+    Menus.addSubMenuItem('topbar', 'students', {
+      title: 'Create Students',
+      state: 'students.create',
       roles: ['user']
     });
   }

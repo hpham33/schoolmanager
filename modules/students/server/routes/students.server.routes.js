@@ -3,21 +3,21 @@
 /**
  * Module dependencies.
  */
-var articlesPolicy = require('../policies/articles.server.policy'),
-  articles = require('../controllers/articles.server.controller');
+var studentsPolicy = require('../policies/students.server.policy'),
+  students = require('../controllers/students.server.controller');
 
 module.exports = function (app) {
   // Articles collection routes
-  app.route('/api/articles').all(articlesPolicy.isAllowed)
-    .get(articles.list)
-    .post(articles.create);
+  app.route('/api/students').all(studentsPolicy.isAllowed)
+    .get(students.list)
+    .post(students.create);
 
-  // Single article routes
-  app.route('/api/articles/:articleId').all(articlesPolicy.isAllowed)
-    .get(articles.read)
-    .put(articles.update)
-    .delete(articles.delete);
+  // Single student routes
+  app.route('/api/students/:studentId').all(studentsPolicy.isAllowed)
+    .get(students.read)
+    .put(students.update)
+    .delete(students.delete);
 
-  // Finish by binding the article middleware
-  app.param('articleId', articles.articleByID);
+  // Finish by binding the student middleware
+  app.param('studentId', students.studentByID);
 };

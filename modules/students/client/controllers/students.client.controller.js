@@ -1,29 +1,29 @@
 'use strict';
 
-// Articles controller
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
-  function ($scope, $stateParams, $location, Authentication, Articles) {
+// Students controller
+angular.module('students').controller('StudentsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Students',
+  function ($scope, $stateParams, $location, Authentication, Students) {
     $scope.authentication = Authentication;
 
-    // Create new Article
+    // Create new Student
     $scope.create = function (isValid) {
       $scope.error = null;
 
       if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'articleForm');
+        $scope.$broadcast('show-errors-check-validity', 'studentForm');
 
         return false;
       }
 
-      // Create new Article object
-      var article = new Articles({
+      // Create new Student object
+      var student = new Students({
         title: this.title,
         content: this.content
       });
 
       // Redirect after save
-      article.$save(function (response) {
-        $location.path('articles/' + response._id);
+      student.$save(function (response) {
+        $location.path('students/' + response._id);
 
         // Clear form fields
         $scope.title = '';
@@ -33,51 +33,51 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
       });
     };
 
-    // Remove existing Article
-    $scope.remove = function (article) {
-      if (article) {
-        article.$remove();
+    // Remove existing Student
+    $scope.remove = function (student) {
+      if (student) {
+        student.$remove();
 
-        for (var i in $scope.articles) {
-          if ($scope.articles[i] === article) {
-            $scope.articles.splice(i, 1);
+        for (var i in $scope.students) {
+          if ($scope.students[i] === student) {
+            $scope.students.splice(i, 1);
           }
         }
       } else {
-        $scope.article.$remove(function () {
-          $location.path('articles');
+        $scope.student.$remove(function () {
+          $location.path('students');
         });
       }
     };
 
-    // Update existing Article
+    // Update existing Student
     $scope.update = function (isValid) {
       $scope.error = null;
 
       if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'articleForm');
+        $scope.$broadcast('show-errors-check-validity', 'studentForm');
 
         return false;
       }
 
-      var article = $scope.article;
+      var student = $scope.student;
 
-      article.$update(function () {
-        $location.path('articles/' + article._id);
+      student.$update(function () {
+        $location.path('students/' + student._id);
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
     };
 
-    // Find a list of Articles
+    // Find a list of Students
     $scope.find = function () {
-      $scope.articles = Articles.query();
+      $scope.students = Students.query();
     };
 
-    // Find existing Article
+    // Find existing Student
     $scope.findOne = function () {
-      $scope.article = Articles.get({
-        articleId: $stateParams.articleId
+      $scope.student = Students.get({
+        studentId: $stateParams.studentId
       });
     };
   }

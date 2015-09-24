@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Articles Permissions
+ * Invoke Students Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/articles',
+      resources: '/api/students',
       permissions: '*'
     }, {
-      resources: '/api/articles/:articleId',
+      resources: '/api/students/:studentId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/articles',
+      resources: '/api/students',
       permissions: ['get', 'post']
     }, {
-      resources: '/api/articles/:articleId',
+      resources: '/api/students/:studentId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/articles',
+      resources: '/api/students',
       permissions: ['get']
     }, {
-      resources: '/api/articles/:articleId',
+      resources: '/api/students/:studentId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Students Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an article is being processed and the current user created it then allow any manipulation
-  if (req.article && req.user && req.article.user.id === req.user.id) {
+  // If an student is being processed and the current user created it then allow any manipulation
+  if (req.student && req.user && req.student.user.id === req.user.id) {
     return next();
   }
 
