@@ -13,16 +13,29 @@ var path = require('path'),
  * Create a student
  */
 exports.create = function (req, res) {
-    var student = new Student(req.body);
-    student.user = req.user;
+    var students;
+    if (_.isArray(req.body)) {
+        students = _.map(req.body, function (item) {
+            item.user = req.user;
+            return item;
+        });
+    } else {
+        students = req.body;
+        students.user = req.user;
+    }
 
-    student.save(function (err) {
+    Student.create(students, function (err, results) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(student);
+            if (_.isArray(results)) {
+                res.json([{totalCreated: results.length}]);
+            } else {
+                res.json(results);
+            }
+
         }
     });
 };

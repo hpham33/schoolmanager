@@ -10,7 +10,7 @@ angular.module('students').controller('ListStudentController',
             var searchParams = {};
 
             $scope.studentGridOptions = {
-                //enableGridMenu: true,
+                enableGridMenu: true,
                 useExternalSorting: true,
                 columnDefs: [
                     {
@@ -46,9 +46,12 @@ angular.module('students').controller('ListStudentController',
                     }
                 ],
                 data: [],
-                //importerDataAddCallback: function (grid, newObjects) {
-                //    $log.info(newObjects);
-                //},
+                importerDataAddCallback: function (grid, newObjects) {
+                    Students.saveAll({}, newObjects).$promise.then(function(response) {
+                        $log.info(response);
+                        $scope.find();
+                    });
+                },
                 onRegisterApi: function (gridApi) {
                     $scope.gridApi = gridApi;
                     gridApi.infiniteScroll.on.needLoadMoreData($scope, getDataDown);
