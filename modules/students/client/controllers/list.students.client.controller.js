@@ -9,8 +9,13 @@ angular.module('students').controller('ListStudentController',
             $scope.filterData = {};
             var searchParams = {};
 
+            $scope.hasAuthorization = function() {
+                return _.contains(Authentication.user.roles, 'user') ||
+                    _.contains(Authentication.user.roles, 'admin');
+            };
+
             $scope.studentGridOptions = {
-                enableGridMenu: true,
+                enableGridMenu: $scope.hasAuthorization(),
                 useExternalSorting: true,
                 columnDefs: [
                     {
@@ -31,18 +36,6 @@ angular.module('students').controller('ListStudentController',
                         name: 'referrer',
                         displayName: 'Điện thoại phụ huynh',
                         enableHiding: false
-                    },
-                    {
-                        name: 'action',
-                        displayName: '',
-                        width: '10%',
-                        enableHiding: false,
-                        enableSorting: false,
-                        cellTemplate:
-                            '<div class="ui-grid-cell-contents">' +
-                                '<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh"><i class="glyphicon glyphicon-pencil"></i></button>' +
-                                '&nbsp;&nbsp;<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh"><i class="glyphicon glyphicon-remove"></i></button>' +
-                            '</div>'
                     }
                 ],
                 data: [],
@@ -58,6 +51,21 @@ angular.module('students').controller('ListStudentController',
                     gridApi.core.on.sortChanged($scope, $scope.sortChanged);
                 }
             };
+
+            if ($scope.hasAuthorization()) {
+                $scope.studentGridOptions.columnDefs.push({
+                    name: 'action',
+                    displayName: '',
+                    width: '10%',
+                    enableHiding: false,
+                    enableSorting: false,
+                    cellTemplate:
+                    '<div class="ui-grid-cell-contents">' +
+                    '<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh"><i class="glyphicon glyphicon-pencil"></i></button>' +
+                    '&nbsp;&nbsp;<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh"><i class="glyphicon glyphicon-remove"></i></button>' +
+                    '</div>'
+                });
+            }
 
             $scope.openEditStudentDialog = function (row) {
                 var modalInstance = $modal.open({
