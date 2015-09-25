@@ -1,0 +1,41 @@
+@import "public/lib/bootstrap/less/bootstrap.less"; // <- Bootstrap  bootstrap.less
+@import "public/assets/less/bootswatch.less";           // <- Bootswatch bootswatch.less
+@import "public/assets/less/variables.less";
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.clickable {
+  cursor: pointer;
+}
+.ui-grid {
+  border: none;
+
+  .ui-grid-header-cell {
+    border-right: none;
+    background-color: white;
+
+  }
+}
+.ui-grid-top-panel {
+  background: none;
+}
+.ui-grid-header {
+  border-bottom-width: 2px;
+  color: @brand-primary;
+}
+.ui-grid-cell {
+  border-right: none;
+  border-bottom: 1px solid #d4d4d4;
+}
+.ui-grid-row {
+  transition: background-color 0.2s ease;
+}
+.ui-grid-row:hover {
+  //background-color: lighten(@gray-light, 20%);
+}
+//.ui-grid-row:nth-child(even) .ui-grid-cell,
+//.ui-grid-row:nth-child(odd) .ui-grid-cell {
+//  background-color: inherit;
+//}

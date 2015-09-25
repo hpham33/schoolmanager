@@ -1,0 +1,25 @@
+.dropdown-menu[datepicker-popup-wrap] {
+  width: 250px;
+  height: 240px;
+}
+.dropdown-menu[datepicker-popup-wrap]:focus {
+  outline: none;
+}
+.dropdown-menu[datepicker-popup-wrap] table {
+  width: 250px;
+  height: 231px;
+}
+.dropdown-menu[datepicker-popup-wrap] table:focus {
+  outline: none;
+}
+.dropdown-menu[datepicker-popup-wrap] button {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+.dropdown-menu[datepicker-popup-wrap] tbody {
+  height: 180px;
+}
+.dropdown-menu[datepicker-popup-wrap] tbody button {
+  padding: 6px;
+}
