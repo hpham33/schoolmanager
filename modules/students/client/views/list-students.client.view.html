@@ -1,20 +1,38 @@
-<section ng-controller="StudentsController" ng-init="find()">
-  <div class="page-header">
-    <h1>Students</h1>
-  </div>
-  <div class="list-group">
-    <a ng-repeat="student in students" ui-sref="students.view({studentId: student._id})" class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="student.created | date:'mediumDate'"></span>
-        by
-        <span ng-bind="student.user.displayName"></span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="student.title"></h4>
-      <p class="list-group-item-text" ng-bind="student.content"></p>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="students.$resolved && !students.length">
-    No students yet, why don't you <a ui-sref="students.create">create one</a>?
-  </div>
+<section data-ng-init="find()" style="height: 100%;">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                Danh sách học sinh
+            </h3>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-11">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Nhập tên hoặc mã học sinh"
+                       ng-model="filterData.filterString" ng-enter="find()">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"
+                            data-ng-click="find()">
+                        <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-xs-1">
+            <button type="button" class="btn btn-primary" title="Thêm học sinh"
+                    data-ng-click="openEditStudentDialog()">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <br/>
+
+    <div ui-grid="studentGridOptions"
+         ui-grid-infinite-scroll>
+    </div>
 </section>

@@ -10,25 +10,41 @@ var mongoose = require('mongoose'),
  * Student Schema
  */
 var StudentSchema = new Schema({
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  title: {
-    type: String,
-    default: '',
-    trim: true,
-    required: 'Title cannot be blank'
-  },
-  content: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
-  }
+    studentId: {
+        type: String,
+        default: '',
+        required: 'Please fill Student id',
+        trim: true
+    },
+    name: {
+        type: String,
+        default: '',
+        required: 'Please fill Student name',
+        trim: true
+    },
+    birthday: {
+        type: Date
+    },
+    gender: {
+        type: String,
+        enum: ['male', 'female']
+    },
+    address: {
+        type: String,
+        trim: true
+    },
+    referrer: {
+        type: String,
+        trim: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    }
 });
 
 mongoose.model('Student', StudentSchema);

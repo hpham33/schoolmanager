@@ -1,28 +1,20 @@
-<section ng-controller="StudentsController" ng-init="findOne()">
-  <div class="page-header">
-    <h1>Edit Student</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="studentForm" class="form-horizontal" ng-submit="update(studentForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label for="title">Title</label>
-          <input name="title" type="text" ng-model="student.title" id="title" class="form-control" placeholder="Title" required>
-          <div ng-messages="studentForm.title.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Student title is required.</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="content">Content</label>
-          <textarea name="content" ng-model="student.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Update" class="btn btn-default">
-        </div>
-        <div ng-show="error" class="text-danger">
-          <strong ng-bind="error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+<div class="modal-header">
+    <h4 class="modal-title" data-ng-if="details.data._id">Sửa thông tin học sinh</h4>
+    <h4 class="modal-title" data-ng-if="!details.data._id">Thêm học sinh</h4>
+</div>
+
+<div class="row modal-body">
+    <div class="col-md-12">
+        <form name="studentForm" class="form-horizontal" novalidate>
+            <student-info-block model-data="details.data"></student-info-block>
+
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <hp-button-save></hp-button-save>
+                    &nbsp;
+                    <hp-button-abort></hp-button-abort>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

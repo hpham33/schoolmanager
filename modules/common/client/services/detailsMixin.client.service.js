@@ -37,9 +37,9 @@ angular.module('common').factory('DetailsMixin',
                     }
 
 					if (configuration.scope.data.__id) {
-						return configuration.resource.update(result).then(successAction);
+						return configuration.resource.update(result).$promise.then(successAction);
 					}
-					return configuration.resource.save(result).then(successAction);
+					return configuration.resource.save(result).$promise.then(successAction);
 				}
 
 				function refresh() {

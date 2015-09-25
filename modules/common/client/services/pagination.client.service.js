@@ -33,7 +33,7 @@ angular.module('common').provider('PaginationService', [
 
 				var searchFunction = searchFn.bind(null, searchParams);
 
-				return searchFunction().then(preProcessData);
+				return searchFunction().$promise.then(preProcessData);
 			}
 
 			function makePageObject(pageResult) {
