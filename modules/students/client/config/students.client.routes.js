@@ -18,6 +18,7 @@ angular.module('students').config(['$stateProvider',
             .state('students.details', {
                 url: '/:studentId/transactions',
                 templateUrl: 'modules/students/client/views/details-student.client.view.html',
+                controller: 'DetailsStudentController',
                 data: {
                     roles: ['user', 'admin']
                 }

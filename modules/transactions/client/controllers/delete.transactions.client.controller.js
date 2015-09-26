@@ -1,14 +1,14 @@
 'use strict';
 
 // Transactions controller
-angular.module('students').controller('DeleteStudentController',
-    ['$scope', '$modalInstance', 'selectedStudent',
-        function ($scope, $modalInstance, selectedStudent) {
+angular.module('transactions').controller('DeleteTransactionController',
+    ['$scope', '$modalInstance', 'selectedTransaction',
+        function($scope, $modalInstance, selectedTransaction) {
 
             $scope.ok = function () {
-                selectedStudent.$remove(function (response) {
+                selectedTransaction.$remove(function(response) {
                     $modalInstance.close(response);
-                }, function (errorResponse) {
+                }, function(errorResponse) {
                     $scope.error = errorResponse.data.message;
                 });
             };

@@ -45,14 +45,14 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Từ ngày</label>
                     <div class="col-sm-8 controls">
-                        <phh-date-picker model="filterData.dateFrom"></phh-date-picker>
+                        <hp-date-picker model="filterData.dateFrom"></hp-date-picker>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Đến ngày</label>
                     <div class="col-sm-8 controls">
-                        <phh-date-picker model="filterData.dateTo"></phh-date-picker>
+                        <hp-date-picker model="filterData.dateTo"></hp-date-picker>
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
             <br/>
 
             <div ui-grid="transactionGridOptions"
-                 ui-grid-infinite-scroll>
+                 ui-grid-infinite-scroll ui-grid-importer>
             </div>
         </div>
     </div>
