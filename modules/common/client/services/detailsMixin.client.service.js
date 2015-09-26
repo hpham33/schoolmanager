@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('common').factory('DetailsMixin',
-	['$q',
-	function($q) {
+	['$q', '$rootScope',
+	function($q, $rootScope) {
 
 		function details(configuration) {
 			function loadDetail() {
@@ -34,6 +34,11 @@ angular.module('common').factory('DetailsMixin',
                             configuration.scope.data.$modalInstance.close(response);
                         }
                         return response;
+                    }
+
+                    if (configuration.scope.mainForm && configuration.scope.mainForm.$invalid) {
+                        $rootScope.$broadcast('show-errors-check-validity', configuration.scope.mainForm.$name);
+                        return false;
                     }
 
 					if (configuration.scope.data.__id) {

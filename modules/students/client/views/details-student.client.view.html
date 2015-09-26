@@ -1,0 +1,86 @@
+<section>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                Chi tiết thu chi - học sinh {{ details.data.studentId }}
+                <a ng-click="openEditStudentDialog()" class="clickable">
+                {{ details.data.name }}
+                </a>
+            </h3>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-2">
+            <div class="form-horizontal">
+                <div class="form-group-lg">
+                    <label class="col-sm-6 control-label">Tổng thu</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-warning text-right">
+                            {{ statistic.totalAmountIn | currencyFilter }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group-lg">
+                    <label class="col-sm-6 control-label">Tổng chi</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-info text-right">{{ statistic.totalAmountOut | currencyFilter }}</p>
+                    </div>
+                </div>
+
+                <div class="form-group-lg">
+                    <label class="col-sm-6 control-label">Còn lại</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-danger text-right">
+                            {{ statistic.balance | currencyFilter }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Từ ngày</label>
+                    <div class="col-sm-8 controls">
+                        <phh-date-picker model="filterData.dateFrom"></phh-date-picker>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Đến ngày</label>
+                    <div class="col-sm-8 controls">
+                        <phh-date-picker model="filterData.dateTo"></phh-date-picker>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <button class="btn btn-default" type="button"
+                                data-ng-click="init()">
+                            <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary" tooltip="Thêm khoản chi tiêu"
+                                tooltip-placement="bottom" tooltip-trigger="mouseenter"
+                                data-ng-click="openEditTransactionDialog()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <br/>
+
+            <div ui-grid="transactionGridOptions"
+                 ui-grid-infinite-scroll>
+            </div>
+        </div>
+    </div>
+</section>

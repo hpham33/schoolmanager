@@ -30,5 +30,28 @@
 			expect(now.toISOString()).toEqual(day.toISOString());
 		});
 
+        it('hasAuthorization - should true if allowed roles is ["user", "admin"], user roles is ["user"]', function () {
+            var isAllowed = hpUtils.hasAuthorization(["user", "admin"], ["user"]);
+
+            expect(isAllowed).toEqual(true);
+        });
+
+        it('hasAuthorization - should false if allowed roles is ["user", "admin"], user roles is ["guest"]', function () {
+            var isAllowed = hpUtils.hasAuthorization(["user", "admin"], ["guest"]);
+
+            expect(isAllowed).toEqual(false);
+        });
+
+        it('hasAuthorization - should false if allowed roles is ["admin", "superadmin"], user roles is ["guest", "user"]', function () {
+            var isAllowed = hpUtils.hasAuthorization(["admin", "superadmin"], ["guest", "user"]);
+
+            expect(isAllowed).toEqual(false);
+        });
+
+        it('hasAuthorization - should true if allowed roles is ["user"], user roles is ["admin", "user"]', function () {
+            var isAllowed = hpUtils.hasAuthorization(["user"], ["admin", "user"]);
+
+            expect(isAllowed).toEqual(true);
+        });
 	});
 }());

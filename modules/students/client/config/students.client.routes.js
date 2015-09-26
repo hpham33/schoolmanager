@@ -15,20 +15,9 @@ angular.module('students').config(['$stateProvider',
                 templateUrl: 'modules/students/client/views/list-students.client.view.html',
                 controller: 'ListStudentController'
             })
-            .state('students.create', {
-                url: '/create',
-                templateUrl: 'modules/students/client/views/create-student.client.view.html',
-                data: {
-                    roles: ['user', 'admin']
-                }
-            })
-            .state('students.view', {
-                url: '/:studentId',
-                templateUrl: 'modules/students/client/views/view-student.client.view.html'
-            })
-            .state('students.edit', {
-                url: '/:studentId/edit',
-                templateUrl: 'modules/students/client/views/edit-student.client.view.html',
+            .state('students.details', {
+                url: '/:studentId/transactions',
+                templateUrl: 'modules/students/client/views/details-student.client.view.html',
                 data: {
                     roles: ['user', 'admin']
                 }

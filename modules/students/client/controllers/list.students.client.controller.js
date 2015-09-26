@@ -2,20 +2,14 @@
 
 // Students controller
 angular.module('students').controller('ListStudentController',
-    ['$log', '$scope', '$stateParams', '$location', '$modal', 'Authentication', 'Students', 'PaginationService',
-        function ($log, $scope, $stateParams, $location, $modal, Authentication, Students, PaginationService) {
-            $scope.authentication = Authentication;
-            $scope.model = {};
+    ['$log', '$scope', '$modal', 'Students', 'PaginationService', 'hpUtils',
+        function ($log, $scope, $modal, Students, PaginationService, hpUtils) {
             $scope.filterData = {};
+            var userHasRoles = hpUtils.userHasRoles(['admin', 'user']);
             var searchParams = {};
 
-            $scope.hasAuthorization = function() {
-                return _.contains(Authentication.user.roles, 'user') ||
-                    _.contains(Authentication.user.roles, 'admin');
-            };
-
             $scope.studentGridOptions = {
-                enableGridMenu: $scope.hasAuthorization(),
+                enableGridMenu: userHasRoles,
                 useExternalSorting: true,
                 columnDefs: [
                     {
@@ -35,7 +29,6 @@ angular.module('students').controller('ListStudentController',
                         enableHiding: false
                     }
                 ],
-                data: [],
                 importerDataAddCallback: function (grid, newObjects) {
                     Students.saveAll({}, newObjects).$promise.then(function(response) {
                         $log.info(response);
@@ -46,13 +39,14 @@ angular.module('students').controller('ListStudentController',
                     $scope.gridApi = gridApi;
                     gridApi.infiniteScroll.on.needLoadMoreData($scope, getDataDown);
                     gridApi.core.on.sortChanged($scope, $scope.sortChanged);
-                }
+                },
+                data: []
             };
 
-            if ($scope.hasAuthorization()) {
+            if (userHasRoles) {
                 $scope.studentGridOptions.columnDefs[0].cellTemplate =
                     '<div class="ui-grid-cell-contents">' +
-                        '<a ui-sref="detailStudent({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
+                        '<a ui-sref="students.details({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
                     '</div>';
                 $scope.studentGridOptions.columnDefs.push({
                     name: 'action',
@@ -62,8 +56,8 @@ angular.module('students').controller('ListStudentController',
                     enableSorting: false,
                     cellTemplate:
                     '<div class="ui-grid-cell-contents">' +
-                    '<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh"><i class="glyphicon glyphicon-pencil"></i></button>' +
-                    '&nbsp;&nbsp;<button class="btn btn-default btn-xs" ng-if="grid.appScope.authentication.user._id === row.entity.user._id" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh"><i class="glyphicon glyphicon-remove"></i></button>' +
+                        '<button class="btn btn-default btn-xs" hp-same-user-only="{{ row.entity.user._id }}" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh"><i class="glyphicon glyphicon-pencil"></i></button>' +
+                        '&nbsp;&nbsp;<button class="btn btn-default btn-xs" hp-same-user-only="{{ row.entity.user._id }}" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh"><i class="glyphicon glyphicon-remove"></i></button>' +
                     '</div>'
                 });
             }

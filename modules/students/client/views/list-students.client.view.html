@@ -27,8 +27,8 @@
         </div>
 
         <div class="col-xs-2">
-            <button type="button" class="btn btn-primary pull-right" title="Thêm học sinh" ng-if="hasAuthorization()"
-                    data-ng-click="openEditStudentDialog()">
+            <button type="button" class="btn btn-primary pull-right" title="Thêm học sinh" hp-user-has-roles="admin, user"
+                    ng-click="openEditStudentDialog()">
                 <i class="glyphicon glyphicon-plus"></i>
             </button>
         </div>

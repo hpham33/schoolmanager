@@ -5,8 +5,8 @@
                ng-model="data.studentId" id="studentId"
                class="form-control"
                hp-initial-focus required>
-        <div ng-messages="studentForm.studentId.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Không nên để trống mã số học sinh</p>
+        <div ng-messages="$parent.mainForm.studentId.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Bạn không nên để trống mã số học sinh</p>
         </div>
     </div>
 </div>
@@ -18,8 +18,8 @@
                ng-model="data.name" id="name"
                class="form-control"
                required>
-        <div ng-messages="studentForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Không nên để trống tên học sinh</p>
+        <div ng-messages="$parent.mainForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Bạn không nên để trống tên học sinh</p>
         </div>
     </div>
 </div>

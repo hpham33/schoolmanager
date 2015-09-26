@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('common').factory('hpUtils',
-    [function() {
+    ['Authentication', function(Authentication) {
         function refineInputDate(inputDate) {
             var dateRegex = /^([0-9]{2})([0-9]{2})([0-9]{4})$/g;
             if (dateRegex.test(inputDate)) {
@@ -20,9 +20,22 @@ angular.module('common').factory('hpUtils',
             return new Date(current.getFullYear(), current.getMonth() + 1, 0);
         }
 
+        function hasAuthorization(allowedRoles, userRoles) {
+            var interSetRoles = _.difference(allowedRoles, userRoles);
+            return interSetRoles.length < allowedRoles.length;
+        }
+
+        function userHasRoles(allowedRoles) {
+            var userRoles = Authentication.user && Authentication.user.roles || [];
+            var interSetRoles = _.difference(allowedRoles, userRoles);
+            return interSetRoles.length < allowedRoles.length;
+        }
+
         return {
             refineInputDate: refineInputDate,
             firstDayOfCurrentMonth: firstDayOfCurrentMonth,
-            lastDayOfCurrentMonth: lastDayOfCurrentMonth
+            lastDayOfCurrentMonth: lastDayOfCurrentMonth,
+            hasAuthorization: hasAuthorization,
+            userHasRoles: userHasRoles
         };
     }]);

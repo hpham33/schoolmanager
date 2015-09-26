@@ -16,12 +16,5 @@ angular.module('students').run(['Menus',
       title: 'List Students',
       state: 'students.list'
     });
-
-    // Add the dropdown create item
-    Menus.addSubMenuItem('topbar', 'students', {
-      title: 'Create Students',
-      state: 'students.create',
-      roles: ['user']
-    });
   }
 ]);
