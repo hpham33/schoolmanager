@@ -21,11 +21,8 @@ angular.module('students').controller('ListStudentController',
                     {
                         name: 'studentId',
                         displayName: 'Mã số học sinh',
-                        enableHiding: false,
-                        cellTemplate:
-                            '<div class="ui-grid-cell-contents">' +
-                                '<a ui-sref="detailStudent({ studentId: row.entity._id })">{{ row.entity.studentId }}</a>' +
-                            '</div>'
+                        enableHiding: false
+
                     },
                     {
                         name: 'name',
@@ -53,6 +50,10 @@ angular.module('students').controller('ListStudentController',
             };
 
             if ($scope.hasAuthorization()) {
+                $scope.studentGridOptions.columnDefs[0].cellTemplate =
+                    '<div class="ui-grid-cell-contents">' +
+                        '<a ui-sref="detailStudent({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
+                    '</div>';
                 $scope.studentGridOptions.columnDefs.push({
                     name: 'action',
                     displayName: '',
@@ -116,6 +117,17 @@ angular.module('students').controller('ListStudentController',
                 } else {
                     delete searchParams.filterString;
                 }
+
+                PaginationService.page(Students.query, searchParams).then(function (page) {
+                    $scope.page = page;
+                    $scope.studentGridOptions.data = page.data;
+                    $scope.gridApi.infiniteScroll.resetScroll(false, $scope.page.hasNext());
+                });
+            };
+
+            $scope.reset = function() {
+                $scope.filterData.filterString = '';
+                delete searchParams.filterString;
 
                 PaginationService.page(Students.query, searchParams).then(function (page) {
                     $scope.page = page;

@@ -255,8 +255,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../../../public/lib/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -7507,6 +7507,7 @@ body {
 }
 .clickable {
   cursor: pointer;
+  text-decoration: none;
 }
 .ui-grid {
   border: none;
@@ -7526,6 +7527,10 @@ body {
   border-right: none;
   border-bottom: 1px solid #d4d4d4;
 }
-.ui-grid-row {
-  transition: background-color 0.2s ease;
+.ui-grid-row:hover {
+  background-color: #eeeeee;
+}
+.ui-grid-row:nth-child(even) .ui-grid-cell,
+.ui-grid-row:nth-child(odd) .ui-grid-cell {
+  background-color: inherit;
 }
