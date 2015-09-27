@@ -1,0 +1,99 @@
+<section data-ng-init="find()" style="height: 100%;">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                Thống kê chi tiêu toàn trường
+            </h3>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Tổng thu</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-warning text-right">
+                            {{ statistic.totalAmountIn | currencyFilter }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Tổng chi</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-info text-right">
+                            {{ statistic.totalAmountOut | currencyFilter }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Còn lại</label>
+                    <div class="col-sm-6 controls">
+                        <p class="form-control-static text-danger text-right">
+                            {{ statistic.balance | currencyFilter }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <form name="mainForm" class="form-horizontal" novalidate>
+                <div class="form-group" show-errors>
+                    <label class="col-sm-4 control-label">Từ ngày</label>
+                    <div class="col-sm-8 controls">
+                        <hp-date-picker
+                                model="filterData.dateFrom"
+                                name="dateFrom"
+                                is-required="true">
+                        </hp-date-picker>
+                        <div ng-messages="mainForm.dateFrom.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" show-errors>
+                    <label class="col-sm-4 control-label">Đến ngày</label>
+                    <div class="col-sm-8 controls">
+                        <hp-date-picker
+                                model="filterData.dateTo"
+                                name="dateTo"
+                                is-required="true">
+                        </hp-date-picker>
+                        <div ng-messages="mainForm.dateTo.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu tháng hiện tại"
+                                ng-click="reset()">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+
+                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu"
+                                ng-click="find(mainForm.$invalid)">
+                            <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <br/>
+
+            <div ui-grid="statisticGridOptions"
+                 ui-grid-infinite-scroll>
+            </div>
+        </div>
+    </div>
+</section>
