@@ -2,15 +2,20 @@
     <div class="row">
         <div class="col-md-12">
             <h3>
-                Chi tiết thu chi - học sinh {{ details.data.studentId }}
-                <a ng-click="openEditStudentDialog()" class="clickable">
-                {{ details.data.name }}
-                </a>
+                Chi tiết thu chi
             </h3>
             <hr/>
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-12">
+            <h4>
+                Học sinh
+                <a ng-click="openEditStudentDialog()" class="clickable undecorated-link" title="Sửa thông tin học sinh">
+                    {{ details.data.name }}
+                </a>
+            </h4>
+        </div>
         <div class="col-sm-6">
             <div class="form-horizontal">
                 <div class="form-group">

@@ -76,17 +76,20 @@ angular.module('students').controller('DetailsStudentController',
                         enableHiding: false,
                         enableSorting: false,
                         cellTemplate: '<div class="ui-grid-cell-contents">' +
-                        '<button class="btn btn-default btn-xs" data-ng-click="grid.appScope.openEditTransactionDialog(row)" tooltip="Sửa thông tin chi tiêu" tooltip-placement="bottom" tooltip-trigger="mouseenter">' +
+                        '<button class="btn btn-default btn-xs" data-ng-click="grid.appScope.openEditTransactionDialog(row)" title="Sửa thông tin chi tiêu">' +
                         '<i class="glyphicon glyphicon-pencil"></i>' +
                         '</button>' +
-                        '&nbsp;&nbsp;<button class="btn btn-default btn-xs" data-ng-click="grid.appScope.openDeleteTransactionDialog(row)" tooltip="Xóa khoản chi tiêu" tooltip-placement="bottom" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-remove"></i></button>' +
+                        '&nbsp;&nbsp;<button class="btn btn-default btn-xs" data-ng-click="grid.appScope.openDeleteTransactionDialog(row)" title="Xóa khoản chi tiêu"><i class="glyphicon glyphicon-remove"></i></button>' +
                         '</div>'
                     }
                 ],
                 data: [],
                 minRowsToShow: 6,
                 importerDataAddCallback: function (grid, newObjects) {
-                    Transactions.saveAll($scope.filterData, newObjects).$promise.then(function(response) {
+                    //$log.info(newObjects);
+                    var formattedObjects = formatImportedObjects(newObjects);
+                    //$log.info(formattedObjects);
+                    Transactions.saveAll({}, formattedObjects).$promise.then(function(response) {
                         $log.info(response);
                         $scope.init();
                     });
@@ -96,6 +99,33 @@ angular.module('students').controller('DetailsStudentController',
                     gridApi.infiniteScroll.on.needLoadMoreData($scope, getDataDown);
                 }
             };
+
+
+            function formatImportedObjects(objects) {
+                return _.map(objects, function(object) {
+                    if (object.created) {
+                        var createdDate = new Date(Date.parse(object.created));
+                        createdDate.setHours(0);
+                        createdDate.setMinutes(0);
+                        createdDate.setSeconds(0);
+                        createdDate.setMilliseconds(0);
+                        object.created = createdDate;
+                    }
+                    if (object.amountIn) {
+                        object.amount = object.amountIn;
+                        object.type = 'in';
+                    }
+                    if (object.amountOut) {
+                        object.amount = object.amountOut;
+                        object.type = 'out';
+                    }
+                    delete object.amountIn;
+                    delete object.amountOut;
+                    object.student = $stateParams.studentId;
+
+                    return object;
+                });
+            }
 
             function getDataDown() {
                 if ($scope.page.hasNext()) {

@@ -15,7 +15,7 @@ angular.module('common').directive('hpDatePicker',
         },
         controller: [function() {
             var vm = this;
-
+            vm.name = vm.name || 'date';
             vm.status = {
                 opened: false
             };

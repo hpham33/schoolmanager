@@ -6,15 +6,16 @@
 <div class="row modal-body">
     <div class="col-md-12">
         <form name="mainForm" class="form-horizontal" novalidate>
-            <div class="form-group" show-errors>
+            <div class="form-group">
                 <label class="col-sm-4 control-label">Ngày</label>
-                <div class="col-sm-8">
-                    <hp-date-picker model="details.data.created" is-required="true"></hp-date-picker>
+                <div class="col-sm-8 controls">
+                    <hp-date-picker
+                            model="details.data.created"
+                            is-required="true">
+                    </hp-date-picker>
                     <div ng-messages="mainForm.date.$error" role="alert">
                         <p class="help-block error-text" ng-message="required">
                             Bạn không nên để trống ngày này</p>
-                    </div>
-                    <div ng-messages="mainForm.date.$error" role="alert">
                         <p class="help-block error-text" ng-message="date">
                             Ngày không hợp lệ</p>
                     </div>
@@ -53,8 +54,6 @@
                             ng-required="true">
                     <div ng-messages="mainForm.amount.$error" role="alert">
                         <p class="help-block error-text" ng-message="required">Bạn không nên để trống số tiền</p>
-                    </div>
-                    <div ng-messages="mainForm.amount.$error" role="alert">
                         <p class="help-block error-text" ng-message="number">Số tiền không hợp lệ</p>
                     </div>
                 </div>
