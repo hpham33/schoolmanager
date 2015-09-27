@@ -100,7 +100,7 @@ exports.list = function (req, res) {
         if (req.query.orderBy) {
             query.sort(req.query.orderBy);
         } else {
-            query.sort('-created');
+            query.sort('created');
         }
     }
 

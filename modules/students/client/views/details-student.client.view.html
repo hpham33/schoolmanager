@@ -41,36 +41,55 @@
         </div>
 
         <div class="col-sm-6">
-            <div class="form-horizontal">
-                <div class="form-group">
+            <form name="mainForm" class="form-horizontal" novalidate>
+                <div class="form-group" show-errors>
                     <label class="col-sm-4 control-label">Từ ngày</label>
                     <div class="col-sm-8 controls">
-                        <hp-date-picker model="filterData.dateFrom"></hp-date-picker>
+                        <hp-date-picker
+                                model="filterData.dateFrom"
+                                name="dateFrom"
+                                is-required="true">
+                        </hp-date-picker>
+                        <div ng-messages="mainForm.dateFrom.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" show-errors>
                     <label class="col-sm-4 control-label">Đến ngày</label>
                     <div class="col-sm-8 controls">
-                        <hp-date-picker model="filterData.dateTo"></hp-date-picker>
+                        <hp-date-picker
+                                model="filterData.dateTo"
+                                name="dateTo"
+                                is-required="true">
+                        </hp-date-picker>
+                        <div ng-messages="mainForm.dateTo.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-4">
-                        <button class="btn btn-default" type="button"
-                                data-ng-click="init()">
+                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu tháng hiện tại"
+                                ng-click="reset()">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+
+                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu"
+                                ng-click="find(mainForm.$invalid)">
                             <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
                         </button>
                         &nbsp;
-                        <button type="button" class="btn btn-primary" tooltip="Thêm khoản chi tiêu"
+                        <button type="button" class="btn btn-primary" title="Thêm khoản chi tiêu"
                                 tooltip-placement="bottom" tooltip-trigger="mouseenter"
                                 data-ng-click="openEditTransactionDialog()">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 

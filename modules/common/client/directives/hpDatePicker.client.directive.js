@@ -10,7 +10,8 @@ angular.module('common').directive('hpDatePicker',
         templateUrl: 'modules/common/client/directives/hpDatePicker.client.tpl.html',
         scope: {
             model: '=',
-            isRequired: '='
+            isRequired: '=',
+            name: '@'
         },
         controller: [function() {
             var vm = this;

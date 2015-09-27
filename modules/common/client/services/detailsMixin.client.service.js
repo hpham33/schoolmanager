@@ -47,6 +47,10 @@ angular.module('common').factory('DetailsMixin',
 					return configuration.resource.save(result).$promise.then(successAction);
 				}
 
+                function canSave() {
+                    return configuration.scope.mainForm.$invalid;
+                }
+
 				function refresh() {
 
 				}
@@ -54,6 +58,7 @@ angular.module('common').factory('DetailsMixin',
 				return {
                     abort: abort,
 					save: save,
+                    canSave: canSave,
 					refresh: refresh,
 					data: result
 				};

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('students').controller('DetailsStudentController',
-    ['$log', '$scope', '$stateParams', '$modal', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
-        function ($log, $scope, $stateParams, $modal, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
+    ['$log', '$rootScope', '$scope', '$stateParams', '$modal', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
+        function ($log, $rootScope, $scope, $stateParams, $modal, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
 
             var defaultStatistic = {
                 totalAmountIn: 0,
@@ -10,13 +10,15 @@ angular.module('students').controller('DetailsStudentController',
                 balance: 0
             };
 
-            $scope.statistic = _.assign(defaultStatistic);
-
-            $scope.filterData = {
+            var defaultFilterData = {
                 student: $stateParams.studentId,
                 dateFrom: hpUtils.firstDayOfCurrentMonth(),
                 dateTo: hpUtils.lastDayOfCurrentMonth()
             };
+
+            $scope.statistic = _.clone(defaultStatistic);
+            $scope.filterData = _.clone(defaultFilterData);
+
             var userHasRoles = hpUtils.userHasRoles(['admin', 'user']);
 
             $scope.data = {
@@ -182,6 +184,19 @@ angular.module('students').controller('DetailsStudentController',
                     $scope.statistic.totalAmountOut = response.totalAmountOut || 0;
                     $scope.statistic.balance = response.balance || 0;
                 });
+            };
+
+            $scope.find = function(invalid) {
+                if (invalid) {
+                    $rootScope.$broadcast('show-errors-check-validity', 'mainForm');
+                    return;
+                }
+                $scope.init();
+            };
+
+            $scope.reset = function() {
+                $scope.filterData = _.clone(defaultFilterData);
+                $scope.init();
             };
 
             $scope.init = function () {

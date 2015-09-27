@@ -16,6 +16,7 @@ angular.module('transactions').controller('EditTransactionController',
         }).then(function(details) {
             $scope.details = details;
             $scope.details.data.created = $scope.details.data.created || new Date();
+            $scope.details.data.type = $scope.details.data.type || 'out';
             $scope.details.data.student = $stateParams.studentId;
         });
 	}

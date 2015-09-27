@@ -6,37 +6,57 @@
 <div class="row modal-body">
     <div class="col-md-12">
         <form name="mainForm" class="form-horizontal" novalidate>
-            <div class="form-group">
+            <div class="form-group" show-errors>
                 <label class="col-sm-4 control-label">Ngày</label>
                 <div class="col-sm-8">
                     <hp-date-picker model="details.data.created" is-required="true"></hp-date-picker>
-                    <div ng-messages="$parent.mainForm.date.$error" role="alert">
+                    <div ng-messages="mainForm.date.$error" role="alert">
                         <p class="help-block error-text" ng-message="required">
                             Bạn không nên để trống ngày này</p>
+                    </div>
+                    <div ng-messages="mainForm.date.$error" role="alert">
+                        <p class="help-block error-text" ng-message="date">
+                            Ngày không hợp lệ</p>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" show-errors>
                 <label class="col-sm-4 control-label">Loại chi tiêu</label>
                 <div class="col-sm-8 controls">
                     <label class="radio-inline">
                         <input type="radio"
+                               name="type"
                                value="in"
-                               ng-model="details.data.type">Thu
+                               ng-model="details.data.type" ng-required="true">Thu
                     </label>
                     <label class="radio-inline">
                         <input type="radio"
+                               name="type"
                                value="out"
-                               ng-model="details.data.type">Chi
+                               ng-model="details.data.type" ng-required="true">Chi
                     </label>
+                    <div ng-messages="mainForm.type.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống loại chi tiêu</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" show-errors>
                 <label class="col-sm-4 control-label" for="amount">Số tiền</label>
                 <div class="col-sm-8 controls">
-                    <input type="text" data-ng-model="details.data.amount" id="amount" class="form-control">
+                    <input type="number"
+                           ng-model="details.data.amount"
+                           id="amount"
+                           name="amount"
+                           class="form-control"
+                            ng-required="true">
+                    <div ng-messages="mainForm.amount.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống số tiền</p>
+                    </div>
+                    <div ng-messages="mainForm.amount.$error" role="alert">
+                        <p class="help-block error-text" ng-message="number">Số tiền không hợp lệ</p>
+                    </div>
                 </div>
             </div>
 
