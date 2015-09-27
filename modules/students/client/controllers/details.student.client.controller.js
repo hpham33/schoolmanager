@@ -4,11 +4,18 @@ angular.module('students').controller('DetailsStudentController',
     ['$log', '$scope', '$stateParams', '$modal', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
         function ($log, $scope, $stateParams, $modal, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
 
-            $scope.statistic = {};
+            var defaultStatistic = {
+                totalAmountIn: 0,
+                totalAmountOut: 0,
+                balance: 0
+            };
+
+            $scope.statistic = _.assign(defaultStatistic);
+
             $scope.filterData = {
                 student: $stateParams.studentId,
-                dateFrom: hpUtils.firstDayOfCurrentMonth().toISOString(),
-                dateTo: hpUtils.lastDayOfCurrentMonth().toISOString()
+                dateFrom: hpUtils.firstDayOfCurrentMonth(),
+                dateTo: hpUtils.lastDayOfCurrentMonth()
             };
             var userHasRoles = hpUtils.userHasRoles(['admin', 'user']);
 
@@ -123,7 +130,7 @@ angular.module('students').controller('DetailsStudentController',
             $scope.openDeleteTransactionDialog = function (row) {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: 'modules/transactions/views/delete-transaction.client.view.html',
+                    templateUrl: 'modules/transactions/client/views/delete-transaction.client.view.html',
                     controller: 'DeleteTransactionController',
                     resolve: {
                         selectedTransaction: function () {
@@ -171,8 +178,9 @@ angular.module('students').controller('DetailsStudentController',
 
             $scope.getTotalAmount = function () {
                 Transactions.totalAmount($scope.filterData).$promise.then(function (response) {
-                    $log.info(response);
-                    $scope.statistic = response[0];
+                    $scope.statistic.totalAmountIn = response.totalAmountIn || 0;
+                    $scope.statistic.totalAmountOut = response.totalAmountOut || 0;
+                    $scope.statistic.balance = response.balance || 0;
                 });
             };
 

@@ -15,7 +15,7 @@ angular.module('transactions').factory('Transactions', ['$resource',
             },
             totalAmount: {
                 method: 'GET',
-                url: 'totalAmount'
+                url: 'api/transactions/totalAmount'
             }
         });
     }

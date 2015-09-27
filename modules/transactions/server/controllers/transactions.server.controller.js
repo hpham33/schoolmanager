@@ -179,7 +179,7 @@ exports.totalAmount = function(req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.jsonp(result);
+            res.jsonp(result[0]);
         }
     });
 };

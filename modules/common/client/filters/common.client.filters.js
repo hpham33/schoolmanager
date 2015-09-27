@@ -9,10 +9,10 @@ angular.module('common')
         }
 
         return function (input) {
-            if (input) {
+            if (!_.isUndefined(input) && !_.isNull(input)) {
                 return addSeparator(input.toString()) + ' đ';
             }
-        }
+        };
     }])
     .filter('amountFilter',
     [function() {

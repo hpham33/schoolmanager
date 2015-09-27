@@ -12,6 +12,9 @@ module.exports = function (app) {
         .get(transactions.list)
         .post(transactions.create);
 
+    app.route('/api/transactions/totalAmount')
+        .get(transactions.totalAmount);
+
     // Single transaction routes
     app.route('/api/transactions/:transactionId').all(transactionsPolicy.isAllowed)
         .get(transactions.read)
