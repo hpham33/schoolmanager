@@ -5,7 +5,7 @@ angular.module('students').run(['Menus',
   function (Menus) {
     // Add the students dropdown item
     Menus.addMenuItem('topbar', {
-      title: 'Students',
+      title: 'Học sinh',
       state: 'students',
       type: 'dropdown',
       roles: ['*']
@@ -13,7 +13,7 @@ angular.module('students').run(['Menus',
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'students', {
-      title: 'List Students',
+      title: 'Danh sách học sinh',
       state: 'students.list'
     });
   }
