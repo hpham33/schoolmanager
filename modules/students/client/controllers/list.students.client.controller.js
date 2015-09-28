@@ -18,11 +18,14 @@ angular.module('students').controller('ListStudentController',
 						enableHiding: false
 
 					},
-					{
-						name: 'name',
-						displayName: 'Tên học sinh',
-						enableHiding: false
-					},
+                    {
+                        name: 'name',
+                        displayName: 'Tên học sinh',
+                        enableHiding: false,
+                        cellTooltip: function (row, col) {
+                            return row.entity.name;
+                        }
+                    },
 					{
 						name: 'referrer',
 						displayName: 'Điện thoại phụ huynh',
@@ -51,7 +54,7 @@ angular.module('students').controller('ListStudentController',
 				$scope.studentGridOptions.columnDefs.push({
 					name: 'action',
 					displayName: '',
-					width: '10%',
+					width: '70',
 					enableHiding: false,
 					enableSorting: false,
 					cellTemplate:
