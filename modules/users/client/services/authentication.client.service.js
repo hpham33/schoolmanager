@@ -7,6 +7,9 @@ angular.module('users').factory('Authentication', ['$window',
 			user: $window.user,
 			isAdmin: function () {
 				return _.contains($window.user.roles, 'admin');
+			},
+			isUser: function() {
+				return _.contains($window.user.roles, 'user');
 			}
 		};
 	}

@@ -2,14 +2,14 @@
 
 // Students controller
 angular.module('students').controller('ListStudentController',
-	['$log', '$scope', '$modal', 'Authentication', 'Students', 'PaginationService', 'hpUtils',
-		function ($log, $scope, $modal, Authentication, Students, PaginationService, hpUtils) {
+	['$log', '$scope', '$modal', 'Authentication', 'Students', 'PaginationService',
+		function ($log, $scope, $modal, Authentication, Students, PaginationService) {
 			$scope.filterData = {};
-			var userHasRoles = hpUtils.userHasRoles(['admin', 'user']);
+			var userHasPermission = Authentication.isAdmin() || Authentication.isUser();
 			var searchParams = {};
 
 			$scope.studentGridOptions = {
-				enableGridMenu: userHasRoles,
+				enableGridMenu: userHasPermission,
 				useExternalSorting: true,
 				columnDefs: [
 					{
@@ -43,10 +43,10 @@ angular.module('students').controller('ListStudentController',
 				data: []
 			};
 
-			if (userHasRoles) {
+			if (userHasPermission) {
 				$scope.studentGridOptions.columnDefs[0].cellTemplate =
 					'<div class="ui-grid-cell-contents">' +
-					'<a ui-sref="students.details({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
+						'<a ui-sref="students.details({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
 					'</div>';
 				$scope.studentGridOptions.columnDefs.push({
 					name: 'action',
@@ -54,14 +54,15 @@ angular.module('students').controller('ListStudentController',
 					width: '10%',
 					enableHiding: false,
 					enableSorting: false,
-					cellTemplate: '<div class="ui-grid-cell-contents">' +
-					'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditStudent(row.entity)" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh">' +
-					'<i class="glyphicon glyphicon-pencil"></i>' +
-					'</button>' +
-					'&nbsp;&nbsp;' +
-					'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditStudent(row.entity)" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh">' +
-					'<i class="glyphicon glyphicon-remove"></i>' +
-					'</button>' +
+					cellTemplate:
+					'<div class="ui-grid-cell-contents">' +
+						'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditStudent(row.entity)" ng-click="grid.appScope.openEditStudentDialog(row)" title="Sửa thông tin học sinh">' +
+							'<i class="glyphicon glyphicon-pencil"></i>' +
+						'</button>' +
+						'&nbsp;&nbsp;' +
+						'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditStudent(row.entity)" ng-click="grid.appScope.openDeleteStudentDialog(row)" title="Xóa thông tin học sinh">' +
+							'<i class="glyphicon glyphicon-remove"></i>' +
+						'</button>' +
 					'</div>'
 				});
 			}

@@ -16,10 +16,10 @@ angular.module('students').controller('DetailsStudentController',
 				dateTo: hpUtils.lastDayOfCurrentMonth()
 			};
 
+			var userHasPermission = Authentication.isAdmin() || Authentication.isUser();
+
 			$scope.statistic = _.clone(defaultStatistic);
 			$scope.filterData = _.clone(defaultFilterData);
-
-			var userHasRoles = hpUtils.userHasRoles(['admin', 'user']);
 
 			$scope.data = {
 				__id: $stateParams.studentId,
@@ -34,7 +34,7 @@ angular.module('students').controller('DetailsStudentController',
 			});
 
 			$scope.transactionGridOptions = {
-				enableGridMenu: userHasRoles,
+				enableGridMenu: userHasPermission,
 				columnDefs: [
 					{
 						name: 'created',
