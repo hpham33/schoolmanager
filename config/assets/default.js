@@ -8,6 +8,7 @@ module.exports = {
                 'public/lib/angular-ui-grid/ui-grid.css'
             ],
             js: [
+	            'public/lib/jquery/dist/jquery.js',
                 'public/lib/angular/angular.js',
                 'public/lib/angular-resource/angular-resource.js',
                 'public/lib/angular-animate/angular-animate.js',
@@ -19,7 +20,8 @@ module.exports = {
                 'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
                 'public/lib/angular-ui-grid/ui-grid.js',
                 'public/lib/csv-js/csv.js',
-                'public/lib/lodash/lodash.js'
+                'public/lib/lodash/lodash.js',
+	            'public/lib/bootstrap/dist/js/bootstrap.js'
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },

@@ -88,14 +88,24 @@
                             <i class="glyphicon glyphicon-refresh"></i>
                         </button>
 
-                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu"
-                                ng-click="find(mainForm.$invalid)">
-                            <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="find(mainForm.$invalid)">
+                                <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+                            </button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="">Tìm trong tháng hiện tại</a></li>
+                                <li><a href="">Tìm trong tháng trước</a></li>
+                                <li><a href="">Tìm trong tháng tới</a></li>
+                                <li><a href="">Tìm trong năm hiện tại</a></li>
+                            </ul>
+                        </div>
                         &nbsp;
                         <button type="button" class="btn btn-primary" title="Thêm khoản chi tiêu"
-                                tooltip-placement="bottom" tooltip-trigger="mouseenter"
-                                data-ng-click="openEditTransactionDialog()">
+                                ng-click="openEditTransactionDialog()">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
                     </div>

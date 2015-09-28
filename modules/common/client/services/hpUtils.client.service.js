@@ -20,6 +20,16 @@ angular.module('common').factory('hpUtils',
 			return new Date(current.getFullYear(), current.getMonth() + 1, 0);
 		}
 
+		function firstDayOfCurrentYear() {
+			var current = new Date();
+			return new Date(current.getFullYear(), 0, 1);
+		}
+
+		function lastDayOfCurrentYear() {
+			var current = new Date();
+			return new Date(current.getFullYear() + 1, 0, 0);
+		}
+
 		function hasAuthorization(allowedRoles, userRoles) {
 			var interSetRoles = _.difference(allowedRoles, userRoles);
 			return interSetRoles.length < allowedRoles.length;
@@ -48,6 +58,8 @@ angular.module('common').factory('hpUtils',
 			refineInputDate: refineInputDate,
 			firstDayOfCurrentMonth: firstDayOfCurrentMonth,
 			lastDayOfCurrentMonth: lastDayOfCurrentMonth,
+			firstDayOfCurrentYear: firstDayOfCurrentYear,
+			lastDayOfCurrentYear: lastDayOfCurrentYear,
 			hasAuthorization: hasAuthorization,
 			userHasRoles: userHasRoles,
 			refinePhoneNumber: refinePhoneNumber
