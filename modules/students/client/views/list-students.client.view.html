@@ -9,25 +9,31 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-10">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Nhập tên hoặc mã học sinh"
-                       ng-model="filterData.filterString" ng-enter="find()">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="button"
-                            ng-click="reset()" title="Tìm tất cả học sinh">
-                        <i class="glyphicon glyphicon-refresh"></i>
-                    </button>
-                    <button class="btn btn-default" type="button" title="Tìm học sinh"
-                            data-ng-click="find()">
-                        <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-                    </button>
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <input type="text" class="form-control" placeholder="Nhập tên hoặc mã học sinh"
+                         ng-model="filterData.filterString" ng-enter="find()">
                 </div>
+
+              </div>
             </div>
+
+        </div>
+        <div ng-class="userHasPermission ? 'col-xs-10' : 'col-xs-12'">
+            <button class="btn btn-default" type="button"
+                    ng-click="reset()" title="Tìm tất cả học sinh">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </button>
+            <button class="btn btn-default" type="button" title="Tìm học sinh"
+                    data-ng-click="find()">
+                <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+            </button>
         </div>
 
-        <div class="col-xs-2">
-            <button type="button" class="btn btn-primary pull-right" title="Thêm học sinh" hp-user-has-roles="admin, user"
+        <div class="col-xs-2" ng-if="userHasPermission">
+            <button type="button" class="btn btn-primary pull-right" title="Thêm học sinh"
                     ng-click="openEditStudentDialog()">
                 <i class="glyphicon glyphicon-plus"></i>
             </button>

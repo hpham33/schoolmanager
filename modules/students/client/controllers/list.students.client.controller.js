@@ -5,11 +5,11 @@ angular.module('students').controller('ListStudentController',
 	['$log', '$scope', '$modal', 'Authentication', 'Students', 'PaginationService',
 		function ($log, $scope, $modal, Authentication, Students, PaginationService) {
 			$scope.filterData = {};
-			var userHasPermission = Authentication.isAdmin() || Authentication.isUser();
+			$scope.userHasPermission = Authentication.isAdmin() || Authentication.isUser();
 			var searchParams = {};
 
 			$scope.studentGridOptions = {
-				enableGridMenu: userHasPermission,
+				enableGridMenu: $scope.userHasPermission,
 				useExternalSorting: true,
 				columnDefs: [
 					{
@@ -43,7 +43,7 @@ angular.module('students').controller('ListStudentController',
 				data: []
 			};
 
-			if (userHasPermission) {
+			if ($scope.userHasPermission) {
 				$scope.studentGridOptions.columnDefs[0].cellTemplate =
 					'<div class="ui-grid-cell-contents">' +
 						'<a ui-sref="students.details({ studentId: row.entity._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity.studentId }}</a>' +
