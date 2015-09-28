@@ -38,13 +38,14 @@ angular.module('students').controller('DetailsStudentController',
 				columnDefs: [
 					{
 						name: 'created',
-						displayName: 'Ngày tạo',
+						displayName: 'Ngày',
 						cellFilter: 'date:\'dd.MM.yyyy\'',
+                        width: '80',
 						enableHiding: false
 					},
 					{
 						name: 'amountIn',
-						displayName: 'Khoản thu',
+						displayName: 'Thu',
 						headerCellClass: 'text-right',
 						enableHiding: false,
 						enableSorting: false,
@@ -55,7 +56,7 @@ angular.module('students').controller('DetailsStudentController',
 					},
 					{
 						name: 'amountOut',
-						displayName: 'Khoản chi',
+						displayName: 'Chi',
 						headerCellClass: 'text-right',
 						enableHiding: false,
 						enableSorting: false,
@@ -74,7 +75,7 @@ angular.module('students').controller('DetailsStudentController',
 					{
 						name: 'action',
 						displayName: '',
-						width: '10%',
+						width: '70',
 						enableHiding: false,
 						enableSorting: false,
 						cellTemplate:

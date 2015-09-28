@@ -2,122 +2,97 @@
     <div class="row">
         <div class="col-md-12">
             <h3>
-                Chi tiết thu chi
-            </h3>
-            <hr/>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>
-                Học sinh
+                Chi tiết thu chi học sinh
                 <span ng-if="!currentUserCanEditStudent()">
                     {{ details.data.name }}
                 </span>
                 <span ng-if="currentUserCanEditStudent()">
                     <a ng-click="openEditStudentDialog()" class="clickable undecorated-link"
-                        title="Sửa thông tin học sinh">
+                       title="Sửa thông tin học sinh">
                         {{ details.data.name }}
                     </a>
                 </span>
-            </h4>
+            </h3>
         </div>
-        <div class="col-sm-6">
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-6 control-label">Tổng thu</label>
-                    <div class="col-sm-6 controls">
-                        <p class="form-control-static text-warning text-right">
-                            {{ statistic.totalAmountIn | currencyFilter }}
-                        </p>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="mainForm" class="form-inline" novalidate>
+                <div class="form-group" style="margin-right: 20px;" show-errors>
+                    <label class="control-label">Từ ngày &nbsp;</label>
+                    <hp-date-picker
+                            model="filterData.dateFrom"
+                            name="dateFrom"
+                            is-required="true">
+                    </hp-date-picker>
+                    <div ng-messages="mainForm.dateFrom.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-right: 20px;" show-errors>
+                    <label class="control-label">Đến ngày &nbsp;</label>
+                    <hp-date-picker
+                            model="filterData.dateTo"
+                            name="dateTo"
+                            is-required="true">
+                    </hp-date-picker>
+                    <div ng-messages="mainForm.dateTo.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label">Tổng chi</label>
-                    <div class="col-sm-6 controls">
-                        <p class="form-control-static text-info text-right">{{ statistic.totalAmountOut | currencyFilter }}</p>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label">Còn lại</label>
-                    <div class="col-sm-6 controls">
-                        <p class="form-control-static text-danger text-right">
-                            {{ statistic.balance | currencyFilter }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <form name="mainForm" class="form-horizontal" novalidate>
-                <div class="form-group" show-errors>
-                    <label class="col-sm-4 control-label">Từ ngày</label>
-                    <div class="col-sm-8 controls">
-                        <hp-date-picker
-                                model="filterData.dateFrom"
-                                name="dateFrom"
-                                is-required="true">
-                        </hp-date-picker>
-                        <div ng-messages="mainForm.dateFrom.$error" role="alert">
-                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" show-errors>
-                    <label class="col-sm-4 control-label">Đến ngày</label>
-                    <div class="col-sm-8 controls">
-                        <hp-date-picker
-                                model="filterData.dateTo"
-                                name="dateTo"
-                                is-required="true">
-                        </hp-date-picker>
-                        <div ng-messages="mainForm.dateTo.$error" role="alert">
-                            <p class="help-block error-text" ng-message="required">Bạn không nên để trống ngày này</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <button class="btn btn-default" type="button" title="Tìm khoản chi tiêu tháng hiện tại"
-                                ng-click="reset()">
-                            <i class="glyphicon glyphicon-refresh"></i>
+                    <div class="btn-group btn-group-sm"  style="margin-right: 20px;">
+                        <button type="button" class="btn btn-default" ng-click="find(mainForm.$invalid)"
+                                title="Tìm chi tiết thu chi">
+                            <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
                         </button>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" ng-click="find(mainForm.$invalid)">
-                                <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-                            </button>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Tìm trong tháng hiện tại</a></li>
-                                <li><a href="">Tìm trong tháng trước</a></li>
-                                <li><a href="">Tìm trong tháng tới</a></li>
-                                <li><a href="">Tìm trong năm hiện tại</a></li>
-                            </ul>
-                        </div>
-                        &nbsp;
-                        <button type="button" class="btn btn-primary" title="Thêm khoản chi tiêu"
-                                ng-click="openEditTransactionDialog()">
-                            <i class="glyphicon glyphicon-plus"></i>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
                         </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Tìm tháng hiện tại</a></li>
+                            <li><a href="">Tìm tháng trước</a></li>
+                            <li><a href="">Tìm tháng tới</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="">Tìm năm hiện tại</a></li>
+                        </ul>
                     </div>
+                    <button type="button" class="btn btn-primary btn-sm" title="Thêm khoản chi tiêu"
+                            ng-click="openEditTransactionDialog()">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
                 </div>
             </form>
+        </div>
+
+        <div class="col-sm-12 margin-top-20">
+            <div class="row">
+                <div class="col-xs-4">
+                    <h6>
+                        Tổng thu <span class="text-warning"><b>{{ statistic.totalAmountIn | currencyFilter }}</b></span>
+                    </h6>
+                </div>
+
+                <div class="col-xs-4">
+                    <h6>
+                        Tổng chi <span class="text-info"><b>{{ statistic.totalAmountOut | currencyFilter }}</b></span>
+                    </h6>
+                </div>
+
+                <div class="col-xs-4">
+                    <h6>
+                        Còn lại <span class="text-danger"><b>{{ statistic.balance | currencyFilter }}</b></span>
+                    </h6>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <br/>
-
             <div ui-grid="transactionGridOptions"
                  ui-grid-infinite-scroll ui-grid-importer>
             </div>

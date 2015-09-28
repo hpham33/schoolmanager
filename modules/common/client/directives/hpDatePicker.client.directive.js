@@ -3,7 +3,7 @@
 angular.module('common').directive('hpDatePicker',
 [function() {
     return {
-        replace: true,
+        //replace: true,
         restrict: 'E',
         controllerAs: 'vm',
         bindToController: true,
