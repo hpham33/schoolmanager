@@ -11,9 +11,15 @@
         <div class="col-sm-12">
             <h4>
                 Học sinh
-                <a ng-click="openEditStudentDialog()" class="clickable undecorated-link" title="Sửa thông tin học sinh">
+                <span ng-if="!currentUserCanEditStudent()">
                     {{ details.data.name }}
-                </a>
+                </span>
+                <span ng-if="currentUserCanEditStudent()">
+                    <a ng-click="openEditStudentDialog()" class="clickable undecorated-link"
+                        title="Sửa thông tin học sinh">
+                        {{ details.data.name }}
+                    </a>
+                </span>
             </h4>
         </div>
         <div class="col-sm-6">
