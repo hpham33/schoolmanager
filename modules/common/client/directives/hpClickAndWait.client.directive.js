@@ -15,7 +15,7 @@ angular.module('common')
 		return {
 			restrict: 'A',
 			compile: function (element, attr) {
-				var fn = $parse(attr.disableOnPromise);
+				var fn = $parse(attr.hpClickAndWait);
 				return function clickHandler(scope, element, attrs) {
 					element.on('click', function (event) {
 						attrs.$set('disabled', true);
