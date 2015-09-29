@@ -17,6 +17,9 @@
   border: 0;
   box-shadow: none;
 }
+.dropdown-menu[datepicker-popup-wrap] button.active span {
+  color: white;
+}
 .dropdown-menu[datepicker-popup-wrap] tbody {
   height: 180px;
 }

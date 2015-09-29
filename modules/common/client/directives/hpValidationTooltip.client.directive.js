@@ -22,7 +22,7 @@ angular.module('common')
 			$get: function() {
 				return {
 					getErrorMessage: function(errorObj) {
-						return defaultMessages[getObjectKey(errorObj)] || getObjectKey(errorObj);
+						return defaultMessages[getObjectKey(errorObj, true)] || getObjectKey(errorObj, true);
 					}
 				};
 			}
@@ -39,13 +39,14 @@ angular.module('common')
 					if (ngModel.$dirty && ngModel.$invalid) {
 						element.tooltip({
 							placement: 'top',
-							trigger: 'hover',
+							trigger: 'hover focus',
 							html: false,
 							title: $hpValidationTooltip.getErrorMessage(ngModel.$error)
 						});
 						element.tooltip('show');
 					} else {
 						element.tooltip('hide');
+						element.tooltip('destroy');
 					}
 				});
 			}
