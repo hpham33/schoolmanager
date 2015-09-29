@@ -26,7 +26,7 @@ angular.module('common')
 						scope.$apply(function () {
 							fn(scope, {$event: event}).finally(function () {
 								if (icon && icon.length > 0) {
-									icon.first().removeClass('glyphicon glyphicon-refresh glyphicon-spin');
+									icon.first().removeClass('glyphicon-refresh glyphicon-spin');
 								}
 								attrs.$set('disabled', false);
 							});

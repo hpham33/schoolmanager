@@ -36,11 +36,6 @@ angular.module('common').factory('DetailsMixin',
                         return response;
                     }
 
-                    if (configuration.scope.mainForm && configuration.scope.mainForm.$invalid) {
-                        $rootScope.$broadcast('show-errors-check-validity', configuration.scope.mainForm.$name);
-                        return false;
-                    }
-
 					if (configuration.scope.data.__id) {
 						return configuration.resource.update(result).$promise.then(successAction);
 					}
@@ -48,7 +43,7 @@ angular.module('common').factory('DetailsMixin',
 				}
 
                 function canSave() {
-                    return configuration.scope.mainForm.$invalid;
+                    return configuration.scope.mainForm.$valid;
                 }
 
 				function refresh() {

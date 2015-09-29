@@ -13,12 +13,6 @@
                             model="details.data.created"
                             is-required="true">
                     </hp-date-picker>
-                    <div ng-messages="mainForm.date.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">
-                            Bạn không nên để trống ngày này</p>
-                        <p class="help-block error-text" ng-message="date">
-                            Ngày không hợp lệ</p>
-                    </div>
                 </div>
             </div>
 
@@ -29,17 +23,14 @@
                         <input type="radio"
                                name="type"
                                value="in"
-                               ng-model="details.data.type" ng-required="true">Thu
+                               ng-model="details.data.type" ng-required="true" hp-validation-tooltip>Thu
                     </label>
                     <label class="radio-inline">
                         <input type="radio"
                                name="type"
                                value="out"
-                               ng-model="details.data.type" ng-required="true">Chi
+                               ng-model="details.data.type" ng-required="true" hp-validation-tooltip>Chi
                     </label>
-                    <div ng-messages="mainForm.type.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống loại chi tiêu</p>
-                    </div>
                 </div>
             </div>
 
@@ -51,11 +42,7 @@
                            id="amount"
                            name="amount"
                            class="form-control"
-                            ng-required="true">
-                    <div ng-messages="mainForm.amount.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Bạn không nên để trống số tiền</p>
-                        <p class="help-block error-text" ng-message="number">Số tiền không hợp lệ</p>
-                    </div>
+                           ng-required="true" hp-validation-tooltip>
                 </div>
             </div>
 

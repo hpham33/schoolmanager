@@ -13,7 +13,7 @@ angular.module('common')
         return {
             restrict: 'E',
             template:
-            '<button type="button" class="btn btn-primary" ng-click="details.save()">' +
+            '<button type="button" class="btn btn-primary" hp-click-and-wait="details.save()" ng-disabled="!details.canSave()">' +
                 '<i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;' +
                 '<span ng-if="details.data._id">Cập nhật</span>' +
                 '<span ng-if="!details.data._id">Lưu</span>' +

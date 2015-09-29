@@ -1,30 +1,34 @@
 'use strict';
 
 angular.module('common')
-	.provider('ValidationErrorMessages', [function() {
-		var defaults = {
-			required: 'This field is required'
+	.provider('$hpValidationTooltip', [function() {
+		var defaultMessages = {
+			required: 'Nội dung này không nên để trống',
+            date: 'Ngày chưa hợp lệ',
+            email: 'Địa chỉ email chưa hợp lệ'
 		};
-		function searchObj( obj ) {
-			for(var key in obj) {
-				if(obj[key] === true) {
-					return key;
-				}
-			}
+		function getObjectKey(obj, val) {
+            var returnKey;
+            angular.forEach(obj, function(value, key) {
+                if (obj[key] === val) {
+                    returnKey = key;
+                }
+            });
+			return returnKey;
 		}
 
 		return {
-			defaults: defaults,
+			defaultMessages: defaultMessages,
 			$get: function() {
 				return {
-					error: function(errorObj) {
-						return defaults[searchObj(errorObj)] || searchObj(errorObj);
+					getErrorMessage: function(errorObj) {
+						return defaultMessages[getObjectKey(errorObj)] || getObjectKey(errorObj);
 					}
 				};
 			}
 		};
 	}])
-	.directive('hpValidationTooltip', ['$log', 'ValidationErrorMessages', '$log', function ($log, ValidationErrorMessages) {
+	.directive('hpValidationTooltip', ['$log', '$hpValidationTooltip', '$log', function ($log, $hpValidationTooltip) {
 		return {
 			restrict: 'A',
 			require: 'ngModel',
@@ -37,14 +41,13 @@ angular.module('common')
 							placement: 'top',
 							trigger: 'hover',
 							html: false,
-							title: ValidationErrorMessages.error(ngModel.$error)
+							title: $hpValidationTooltip.getErrorMessage(ngModel.$error)
 						});
 						element.tooltip('show');
 					} else {
 						element.tooltip('hide');
 					}
 				});
-
 			}
 		};
 	}]);
