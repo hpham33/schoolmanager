@@ -125,7 +125,7 @@ angular.module('students').controller('ListStudentController',
 					delete searchParams.filterString;
 				}
 
-				PaginationService.page(Students.query, searchParams).then(function (page) {
+				return PaginationService.page(Students.query, searchParams).then(function (page) {
 					$scope.page = page;
 					$scope.studentGridOptions.data = page.data;
 					$scope.gridApi.infiniteScroll.resetScroll(false, $scope.page.hasNext());
@@ -136,7 +136,7 @@ angular.module('students').controller('ListStudentController',
 				$scope.filterData.filterString = '';
 				delete searchParams.filterString;
 
-				PaginationService.page(Students.query, searchParams).then(function (page) {
+				return PaginationService.page(Students.query, searchParams).then(function (page) {
 					$scope.page = page;
 					$scope.studentGridOptions.data = page.data;
 					$scope.gridApi.infiniteScroll.resetScroll(false, $scope.page.hasNext());
@@ -165,5 +165,11 @@ angular.module('students').controller('ListStudentController',
 					});
 				}
 			}
+
+			function init() {
+				$scope.find();
+			}
+
+			init();
 		}
 	]);

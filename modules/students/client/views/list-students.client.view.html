@@ -1,4 +1,4 @@
-<section data-ng-init="find()" style="height: 100%;">
+<section style="height: 100%;">
     <div class="row">
         <div class="col-md-12">
             <h3>
@@ -17,11 +17,11 @@
              ng-class="userHasPermission ? 'col-xs-10 col-sm-10 col-md-2' : 'col-xs-12 col-sm-12 col-md-4'">
             <div class="btn-group btn-group-sm">
                 <button class="btn btn-default" type="button"
-                        ng-click="reset()" title="Tìm tất cả học sinh">
+                        hp-click-and-wait="reset()" title="Tìm tất cả học sinh">
                     <i class="glyphicon glyphicon-refresh"></i>
                 </button>
                 <button class="btn btn-default" type="button" title="Tìm học sinh"
-                        data-ng-click="find()">
+                        hp-click-and-wait="find()">
                     <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
                 </button>
             </div>
