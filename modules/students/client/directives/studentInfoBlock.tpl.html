@@ -4,10 +4,7 @@
         <input type="text" name="studentId"
                ng-model="data.studentId" id="studentId"
                class="form-control"
-               hp-initial-focus required>
-        <div ng-messages="$parent.mainForm.studentId.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Bạn không nên để trống mã số học sinh</p>
-        </div>
+               required hp-validation-tooltip>
     </div>
 </div>
 
@@ -17,10 +14,7 @@
         <input type="text" name="name"
                ng-model="data.name" id="name"
                class="form-control"
-               required>
-        <div ng-messages="$parent.mainForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Bạn không nên để trống tên học sinh</p>
-        </div>
+               required hp-validation-tooltip>
     </div>
 </div>
 
