@@ -6,6 +6,7 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Student = mongoose.model('Student'),
+	Transaction = mongoose.model('Transaction'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     _ = require('lodash');
 
@@ -72,15 +73,24 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
     var student = req.student;
 
-    student.remove(function (err) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.json(student);
-        }
-    });
+	// first delete transactions belongs to this student
+	Transaction.remove({ student: req.student }, function(err, response) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			student.remove(function (err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.json(student);
+				}
+			});
+		}
+	});
 };
 
 /**
