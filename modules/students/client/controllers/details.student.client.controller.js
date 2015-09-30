@@ -233,11 +233,7 @@ angular.module('students').controller('DetailsStudentController',
 				});
 			};
 
-			$scope.find = function (invalid) {
-				if (invalid) {
-					$rootScope.$broadcast('show-errors-check-validity', 'mainForm');
-					return;
-				}
+			$scope.find = function () {
 				$scope.init();
 			};
 
