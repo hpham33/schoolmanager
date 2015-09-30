@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('students').controller('DetailsStudentController',
-	['$log', '$rootScope', '$scope', '$stateParams', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
-		function ($log, $rootScope, $scope, $stateParams, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
+	['$log', '$q', '$rootScope', '$scope', '$stateParams', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
+		function ($log, $q, $rootScope, $scope, $stateParams, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
 
 			var defaultStatistic = {
 				totalAmountIn: 0,
@@ -234,35 +234,36 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.find = function () {
-				$scope.init();
+				return $scope.init();
 			};
 
 			$scope.reset = function () {
 				$scope.filterData = _.clone(defaultFilterData);
-				$scope.init();
+				return $scope.init();
 			};
 
 			$scope.findNextMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfNextMonth();
 				$scope.filterData.DateTo =hpUtils.lastDayOfNextMonth();
-				$scope.find();
+				return $scope.find();
 			};
 
 			$scope.findLastMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfLastMonth();
 				$scope.filterData.DateTo =hpUtils.lastDayOfLastMonth();
-				$scope.find();
+				return $scope.find();
 			};
 
 			$scope.findCurrentYear = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentYear();
 				$scope.filterData.dateTo = hpUtils.lastDayOfCurrentYear();
-				$scope.find();
+				return $scope.find();
 			};
 
 			$scope.init = function () {
-				$scope.findTransaction();
-				$scope.getTotalAmount();
+				var findTransactionPromise = $scope.findTransaction();
+				var getTotalAmountPromise = $scope.getTotalAmount();
+				return $q.all([findTransactionPromise, getTotalAmountPromise]);
 			};
 
 			$scope.init();
