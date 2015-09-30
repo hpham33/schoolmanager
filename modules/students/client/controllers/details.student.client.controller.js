@@ -218,7 +218,7 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.findTransaction = function () {
-				PaginationService.page(Transactions.query, $scope.filterData).then(function (page) {
+				return PaginationService.page(Transactions.query, $scope.filterData).then(function (page) {
 					$scope.page = page;
 					$scope.transactionGridOptions.data = page.data;
 					$scope.gridApi.infiniteScroll.resetScroll(false, $scope.page.hasNext());
@@ -226,7 +226,7 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.getTotalAmount = function () {
-				Transactions.totalAmount($scope.filterData).$promise.then(function (response) {
+				return Transactions.totalAmount($scope.filterData).$promise.then(function (response) {
 					$scope.statistic.totalAmountIn = response.totalAmountIn || 0;
 					$scope.statistic.totalAmountOut = response.totalAmountOut || 0;
 					$scope.statistic.balance = response.balance || 0;
@@ -244,6 +244,24 @@ angular.module('students').controller('DetailsStudentController',
 			$scope.reset = function () {
 				$scope.filterData = _.clone(defaultFilterData);
 				$scope.init();
+			};
+
+			$scope.findNextMonth = function() {
+				$scope.filterData.dateFrom = hpUtils.firstDayOfNextMonth();
+				$scope.filterData.DateTo =hpUtils.lastDayOfNextMonth();
+				$scope.find();
+			};
+
+			$scope.findLastMonth = function() {
+				$scope.filterData.dateFrom = hpUtils.firstDayOfLastMonth();
+				$scope.filterData.DateTo =hpUtils.lastDayOfLastMonth();
+				$scope.find();
+			};
+
+			$scope.findCurrentYear = function() {
+				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentYear();
+				$scope.filterData.dateTo = hpUtils.lastDayOfCurrentYear();
+				$scope.find();
 			};
 
 			$scope.init = function () {

@@ -10,6 +10,16 @@ angular.module('common').factory('hpUtils',
 			return inputDate;
 		}
 
+		function firstDayOfNextMonth() {
+			var current = new Date();
+			return new Date(current.getFullYear(), current.getMonth() + 1, 1);
+		}
+
+		function lastDayOfNextMonth() {
+			var current = new Date();
+			return new Date(current.getFullYear(), current.getMonth() + 2, 0);
+		}
+
 		function firstDayOfCurrentMonth() {
 			var current = new Date();
 			return new Date(current.getFullYear(), current.getMonth(), 1);
@@ -18,6 +28,16 @@ angular.module('common').factory('hpUtils',
 		function lastDayOfCurrentMonth() {
 			var current = new Date();
 			return new Date(current.getFullYear(), current.getMonth() + 1, 0);
+		}
+
+		function firstDayOfLastMonth() {
+			var current = new Date();
+			return new Date(current.getFullYear(), current.getMonth() - 1, 1);
+		}
+
+		function lastDayOfLastMonth() {
+			var current = new Date();
+			return new Date(current.getFullYear(), current.getMonth(), 0);
 		}
 
 		function firstDayOfCurrentYear() {
@@ -56,8 +76,12 @@ angular.module('common').factory('hpUtils',
 
 		return {
 			refineInputDate: refineInputDate,
+			firstDayOfNextMonth: firstDayOfNextMonth,
+			lastDayOfNextMonth: lastDayOfNextMonth,
 			firstDayOfCurrentMonth: firstDayOfCurrentMonth,
 			lastDayOfCurrentMonth: lastDayOfCurrentMonth,
+			firstDayOfLastMonth: firstDayOfLastMonth,
+			lastDayOfLastMonth: lastDayOfLastMonth,
 			firstDayOfCurrentYear: firstDayOfCurrentYear,
 			lastDayOfCurrentYear: lastDayOfCurrentYear,
 			hasAuthorization: hasAuthorization,
