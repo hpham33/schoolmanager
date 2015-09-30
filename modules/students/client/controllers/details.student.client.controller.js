@@ -33,79 +33,82 @@ angular.module('students').controller('DetailsStudentController',
 				$scope.details = details;
 			});
 
-			$scope.transactionGridOptions = {
-				enableGridMenu: userHasPermission,
-				columnDefs: [
-					{
-						name: 'created',
-						displayName: 'Ngày',
-						cellFilter: 'date:\'dd.MM.yyyy\'',
-                        width: '80',
-						enableHiding: false
-					},
-					{
-						name: 'amountIn',
-						displayName: 'Thu',
-						headerCellClass: 'text-right',
-						enableHiding: false,
-						enableSorting: false,
-						cellTemplate:
-							'<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
-								'<div>{{ row.entity | amountFilter:\'in\' }}</div>' +
-							'</div>'
-					},
-					{
-						name: 'amountOut',
-						displayName: 'Chi',
-						headerCellClass: 'text-right',
-						enableHiding: false,
-						enableSorting: false,
-						cellTemplate:
-							'<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
-								'<div>{{ row.entity | amountFilter:\'out\' }}</div>' +
-							'</div>'
-					},
-					{
-						name: 'description',
-						displayName: 'Ghi chú',
-						width: '40%',
-						enableHiding: false,
-						enableSorting: false
-					},
-					{
-						name: 'action',
-						displayName: '',
-						width: '70',
-						enableHiding: false,
-						enableSorting: false,
-						cellTemplate:
-						'<div class="ui-grid-cell-contents">' +
-							'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditTransaction(row.entity)" ng-click="grid.appScope.openEditTransactionDialog(row)" title="Sửa thông tin chi tiêu">' +
-								'<i class="glyphicon glyphicon-pencil"></i>' +
-							'</button>' +
-							'&nbsp;&nbsp;' +
-							'<button class="btn btn-default btn-xs" ng-if="grid.appScope.currentUserCanEditTransaction(row.entity)" ng-click="grid.appScope.openDeleteTransactionDialog(row)" title="Xóa khoản chi tiêu">' +
-								'<i class="glyphicon glyphicon-remove"></i>' +
-							'</button>' +
-						'</div>'
-					}
-				],
-				data: [],
-				minRowsToShow: 6,
-				importerDataAddCallback: function (grid, newObjects) {
-					//$log.info(newObjects);
-					var formattedObjects = formatImportedObjects(newObjects);
-					//$log.info(formattedObjects);
-					Transactions.saveAll({}, formattedObjects).$promise.then(function (response) {
-						$log.info(response);
-						$scope.init();
-					});
-				},
-				onRegisterApi: function (gridApi) {
-					$scope.gridApi = gridApi;
-					gridApi.infiniteScroll.on.needLoadMoreData($scope, getDataDown);
-				}
-			};
+			$scope.gridConfig = {
+                gridOptions : {
+                    enableGridMenu: userHasPermission,
+                    columnDefs: [
+                        {
+                            name: 'created',
+                            displayName: 'Ngày',
+                            cellFilter: 'date:\'dd.MM.yyyy\'',
+                            width: '80',
+                            enableHiding: false
+                        },
+                        {
+                            name: 'amountIn',
+                            displayName: 'Thu',
+                            headerCellClass: 'text-right',
+                            enableHiding: false,
+                            enableSorting: false,
+                            cellTemplate:
+                            '<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
+                                '<div>{{ row.entity | amountFilter:\'in\' }}</div>' +
+                            '</div>'
+                        },
+                        {
+                            name: 'amountOut',
+                            displayName: 'Chi',
+                            headerCellClass: 'text-right',
+                            enableHiding: false,
+                            enableSorting: false,
+                            cellTemplate:
+                            '<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
+                                '<div>{{ row.entity | amountFilter:\'out\' }}</div>' +
+                            '</div>'
+                        },
+                        {
+                            name: 'description',
+                            displayName: 'Ghi chú',
+                            width: '40%',
+                            enableHiding: false,
+                            enableSorting: false
+                        },
+                        {
+                            name: 'action',
+                            displayName: '',
+                            width: '100',
+                            enableHiding: false,
+                            enableSorting: false,
+                            buttons: [{
+                                type: 'EDIT',
+                                title: 'Thay đổi thông tin chi tiêu',
+                                execute: function(row) {
+                                    $scope.openEditTransactionDialog(row);
+                                }
+                            }, {
+                                type: 'DELETE',
+                                title: 'Xóa khoản chi tiêu',
+                                execute: function(row) {
+                                    $scope.openDeleteTransactionDialog(row);
+                                }
+                            }]
+                        }
+                    ],
+                    data: [],
+                    minRowsToShow: 6,
+                    importerDataAddCallback: function (grid, newObjects) {
+                        //$log.info(newObjects);
+                        var formattedObjects = formatImportedObjects(newObjects);
+                        //$log.info(formattedObjects);
+                        Transactions.saveAll({}, formattedObjects).$promise.then(function (response) {
+                            $log.info(response);
+                            $scope.findTransaction();
+                        });
+                    }
+                },
+                resource: Transactions,
+                searchParams: $scope.filterData
+            };
 
 			function formatImportedObjects(objects) {
 				return _.map(objects, function (object) {
@@ -131,17 +134,6 @@ angular.module('students').controller('DetailsStudentController',
 
 					return object;
 				});
-			}
-
-			function getDataDown() {
-				if ($scope.page.hasNext()) {
-					$scope.page.next().then(function (page) {
-						$scope.gridApi.infiniteScroll.saveScrollPercentage();
-						$scope.page = page;
-						$scope.transactionGridOptions.data = $scope.transactionGridOptions.data.concat(page.data);
-						$scope.gridApi.infiniteScroll.dataLoaded(false, $scope.page.hasNext());
-					});
-				}
 			}
 
 			$scope.currentUserCanEditStudent = function () {
@@ -171,7 +163,7 @@ angular.module('students').controller('DetailsStudentController',
 				});
 
 				modalInstance.result.then(function (newTransaction) {
-					$scope.init();
+					$scope.findTransaction();
 				}, function () {
 					$log.info('Modal dismissed at: ' + new Date());
 				});
@@ -192,7 +184,7 @@ angular.module('students').controller('DetailsStudentController',
 				});
 
 				modalInstance.result.then(function (newTransaction) {
-					$scope.init();
+					$scope.findTransaction();
 				}, function () {
 					$log.info('Modal dismissed at: ' + new Date());
 				});
@@ -218,11 +210,10 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.findTransaction = function () {
-				return PaginationService.page(Transactions.query, $scope.filterData).then(function (page) {
-					$scope.page = page;
-					$scope.transactionGridOptions.data = page.data;
-					$scope.gridApi.infiniteScroll.resetScroll(false, $scope.page.hasNext());
-				});
+                $scope.gridConfig.searchParams = $scope.filterData;
+                var findPromise = $scope.gridConfig.executeSearch();
+                var totalAmountPromise = $scope.getTotalAmount();
+                return $q.all([findPromise, totalAmountPromise]);
 			};
 
 			$scope.getTotalAmount = function () {
@@ -233,44 +224,34 @@ angular.module('students').controller('DetailsStudentController',
 				});
 			};
 
-			$scope.find = function () {
-				return $scope.init();
-			};
-
 			$scope.reset = function () {
 				$scope.filterData = _.clone(defaultFilterData);
-				return $scope.init();
+				return $scope.findTransaction();
 			};
 
 			$scope.findCurrent = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentMonth();
 				$scope.filterData.dateTo =hpUtils.lastDayOfCurrentMonth();
-				return $scope.find();
+				return $scope.findTransaction();
 			};
 
 			$scope.findNextMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfNextMonth();
 				$scope.filterData.dateTo =hpUtils.lastDayOfNextMonth();
-				return $scope.find();
+				return $scope.findTransaction();
 			};
 
 			$scope.findLastMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfLastMonth();
 				$scope.filterData.dateTo =hpUtils.lastDayOfLastMonth();
-				return $scope.find();
+				return $scope.findTransaction();
 			};
 
 			$scope.findCurrentYear = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentYear();
 				$scope.filterData.dateTo = hpUtils.lastDayOfCurrentYear();
-				return $scope.find();
+				return $scope.findTransaction();
 			};
 
-			$scope.init = function () {
-				var findTransactionPromise = $scope.findTransaction();
-				var getTotalAmountPromise = $scope.getTotalAmount();
-				return $q.all([findTransactionPromise, getTotalAmountPromise]);
-			};
-
-			$scope.init();
+            $scope.getTotalAmount();
 		}]);

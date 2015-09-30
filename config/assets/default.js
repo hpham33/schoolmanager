@@ -21,7 +21,8 @@ module.exports = {
                 'public/lib/angular-ui-grid/ui-grid.js',
                 'public/lib/csv-js/csv.js',
                 'public/lib/lodash/lodash.js',
-	            'public/lib/bootstrap/dist/js/bootstrap.js'
+	            'public/lib/bootstrap/dist/js/bootstrap.js',
+                'public/lib/sprintf/dist/sprintf.min.js'
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },

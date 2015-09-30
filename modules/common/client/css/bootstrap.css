@@ -7521,6 +7521,7 @@ body {
 }
 .ui-grid-header {
   border-bottom-width: 2px;
+  border-bottom-color: #2196f3;
   color: #2196f3;
 }
 .ui-grid-cell {
