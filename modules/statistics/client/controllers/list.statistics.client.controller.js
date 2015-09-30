@@ -2,8 +2,8 @@
 
 // Students controller
 angular.module('statistics').controller('ListStatisticController',
-    ['$log', '$rootScope', '$scope', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
-        function ($log, $rootScope, $scope, $modal, Statistics, PaginationService, hpUtils) {
+    ['$log', '$rootScope', '$scope', '$state', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
+        function ($log, $rootScope, $scope, $state, $modal, Statistics, PaginationService, hpUtils) {
             var defaultFilterData = {
                 dateFrom: hpUtils.firstDayOfCurrentMonth(),
                 dateTo: hpUtils.lastDayOfCurrentMonth()
@@ -20,7 +20,7 @@ angular.module('statistics').controller('ListStatisticController',
                         enableHiding: false,
                         cellTemplate:
                         '<div class="ui-grid-cell-contents">' +
-                            '<a ui-sref="students.details({ studentId: row.entity._id._id })" class="clickable" title="Xem chi tiết thu chi">{{ row.entity._id.name }}</a>' +
+                            '<a ng-click="grid.appScope.goToDetailsStudent(row.entity._id._id)" title="Xem chi tiết thu chi">{{ row.entity._id.name }}</a>' +
                         '</div>'
 
                     },
@@ -62,6 +62,14 @@ angular.module('statistics').controller('ListStatisticController',
                 },
                 data: []
             };
+
+	        $scope.goToDetailsStudent = function(id) {
+				$state.go('students.details', {
+					studentId: id,
+					dateFrom: $scope.filterData.dateFrom,
+					dateTo: $scope.filterData.dateTo
+				});
+	        };
 
             // Find a list of Statistics
             $scope.find = function (invalid) {

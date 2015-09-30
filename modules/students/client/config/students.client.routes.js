@@ -21,7 +21,11 @@ angular.module('students').config(['$stateProvider',
                 controller: 'DetailsStudentController',
                 data: {
                     roles: ['user', 'admin']
-                }
+                },
+		        params: {
+			        dateFrom: null,
+			        dateTo: null
+		        }
             });
     }
 ]);

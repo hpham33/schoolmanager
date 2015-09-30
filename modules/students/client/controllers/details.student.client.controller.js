@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('students').controller('DetailsStudentController',
-	['$log', '$q', '$rootScope', '$scope', '$stateParams', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
-		function ($log, $q, $rootScope, $scope, $stateParams, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
+	['$log', '$q', '$rootScope', '$scope', '$stateParams', '$location', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
+		function ($log, $q, $rootScope, $scope, $stateParams, $location, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
 
 			var defaultStatistic = {
 				totalAmountIn: 0,
@@ -12,8 +12,8 @@ angular.module('students').controller('DetailsStudentController',
 
 			var defaultFilterData = {
 				student: $stateParams.studentId,
-				dateFrom: hpUtils.firstDayOfCurrentMonth(),
-				dateTo: hpUtils.lastDayOfCurrentMonth()
+				dateFrom: $stateParams.dateFrom || hpUtils.firstDayOfCurrentMonth(),
+				dateTo: $stateParams.dateTo || hpUtils.lastDayOfCurrentMonth()
 			};
 
 			var userHasPermission = Authentication.isAdmin() || Authentication.isUser();
@@ -242,15 +242,21 @@ angular.module('students').controller('DetailsStudentController',
 				return $scope.init();
 			};
 
+			$scope.findCurrent = function() {
+				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentMonth();
+				$scope.filterData.dateTo =hpUtils.lastDayOfCurrentMonth();
+				return $scope.find();
+			};
+
 			$scope.findNextMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfNextMonth();
-				$scope.filterData.DateTo =hpUtils.lastDayOfNextMonth();
+				$scope.filterData.dateTo =hpUtils.lastDayOfNextMonth();
 				return $scope.find();
 			};
 
 			$scope.findLastMonth = function() {
 				$scope.filterData.dateFrom = hpUtils.firstDayOfLastMonth();
-				$scope.filterData.DateTo =hpUtils.lastDayOfLastMonth();
+				$scope.filterData.dateTo =hpUtils.lastDayOfLastMonth();
 				return $scope.find();
 			};
 
