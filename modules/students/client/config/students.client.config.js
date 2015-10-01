@@ -8,7 +8,7 @@ angular.module('students').run(['Menus',
       title: 'Học sinh',
       state: 'students',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['user', 'admin']
     });
 
     // Add the dropdown list item

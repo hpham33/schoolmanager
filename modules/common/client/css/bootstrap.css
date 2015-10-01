@@ -7037,6 +7037,21 @@ input[type=number]:focus,
   -webkit-box-shadow: inset 0 -2px 0 #2196f3;
   box-shadow: inset 0 -2px 0 #2196f3;
 }
+textarea.ng-invalid.ng-dirty,
+textarea.form-control.ng-invalid.ng-dirty,
+input.form-control.ng-invalid.ng-dirty,
+input[type=text].ng-invalid.ng-dirty,
+input[type=password].ng-invalid.ng-dirty,
+input[type=email].ng-invalid.ng-dirty,
+input[type=number].ng-invalid.ng-dirty,
+[type=text].form-control.ng-invalid.ng-dirty,
+[type=password].form-control.ng-invalid.ng-dirty,
+[type=email].form-control.ng-invalid.ng-dirty,
+[type=tel].form-control.ng-invalid.ng-dirty,
+[contenteditable].form-control.ng-invalid.ng-dirty {
+  -webkit-box-shadow: inset 0 -2px 0 #e51c23;
+  box-shadow: inset 0 -2px 0 #e51c23;
+}
 textarea[disabled],
 textarea.form-control[disabled],
 input.form-control[disabled],

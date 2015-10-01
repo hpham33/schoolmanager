@@ -176,6 +176,10 @@ input[type=number],
 		.box-shadow(inset 0 -2px 0 @brand-primary);
 	}
 
+    &.ng-invalid.ng-dirty {
+        .box-shadow(inset 0 -2px 0 @brand-danger);
+    }
+
 	&[disabled],
 	&[readonly] {
 		.box-shadow(none);

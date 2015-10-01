@@ -5,12 +5,14 @@ angular.module('common')
 		var defaultMessages = {
 			required: 'Nội dung này không nên để trống',
             date: 'Ngày chưa hợp lệ',
-            email: 'Địa chỉ email chưa hợp lệ'
+            email: 'Địa chỉ email chưa hợp lệ',
+            strength: 'Mật khẩu phải bao gồm ít nhất 10 ký tự, chữ số, ký tự viết thường, ký tự viết hoa, và ký tự đặc biệt',
+            number: 'Số chưa hợp lệ'
 		};
 		function getObjectKey(obj, val) {
             var returnKey;
             angular.forEach(obj, function(value, key) {
-                if (obj[key] === val) {
+                if (obj[key] === val && key !== 'parse') {
                     returnKey = key;
                 }
             });

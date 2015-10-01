@@ -8,7 +8,7 @@ angular.module('statistics').run(['Menus',
       title: 'Thống Kê',
       state: 'statistics',
       type: 'dropdown',
-      roles: ['user']
+      roles: ['user', 'admin']
     });
 
     // Add the dropdown list item

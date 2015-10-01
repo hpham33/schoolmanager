@@ -23,8 +23,8 @@ a:hover .header-profile-image {
   opacity: 1;
 }
 .user-header-dropdown-toggle {
-  padding-top: 11px !important;
-  padding-bottom: 11px !important;
+  /*padding-top: 11px !important;*/
+  padding-bottom: 15.5px !important;
 }
 .error-text {
   display: none;

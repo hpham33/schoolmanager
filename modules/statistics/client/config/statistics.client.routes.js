@@ -13,7 +13,10 @@ angular.module('statistics').config(['$stateProvider',
             .state('statistics.list', {
                 url: '',
                 templateUrl: 'modules/statistics/client/views/list-statistics.client.view.html',
-                controller: 'ListStatisticController'
+                controller: 'ListStatisticController',
+                data: {
+                    roles: ['user', 'admin']
+                }
             });
     }
 ]);

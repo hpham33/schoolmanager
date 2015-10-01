@@ -78,7 +78,7 @@ angular.module('common').directive('hpGrid',
 				function generateButtonTemplate(btnType, btnIndex, text, title) {
 					if (btnType === 'LINK') {
 						return sprintf(
-							'<a ng-click="col.colDef.buttons[%s].execute(row)" title="%s">' +
+							'<a ng-click="col.colDef.buttons[%s].execute(row)" title="%s" class="clickable">' +
 								'{{ col.colDef.buttons[%s].text(row) }}' +
 							'</a>',
 							btnIndex, title || '', btnIndex);
