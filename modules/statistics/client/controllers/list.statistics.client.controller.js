@@ -10,7 +10,7 @@ angular.module('statistics').controller('ListStatisticController',
 			};
 
 			$scope.gridConfig = {
-				statisticGridOptions: {
+				gridOptions: {
 					useExternalSorting: true,
 					columnDefs: [
 						{
@@ -20,6 +20,9 @@ angular.module('statistics').controller('ListStatisticController',
 							buttons: [{
 								type: 'LINK',
 								title: 'Xem chi tiết thu chi',
+								text: function(row) {
+									return row.entity._id.name;
+								},
 								execute: function (row) {
 									$scope.goToDetailsStudent(row.entity._id._id);
 								}

@@ -75,12 +75,13 @@ angular.module('common').directive('hpGrid',
 					});
 				}
 
-				function generateButtonTemplate(btnType, btnIndex, title) {
+				function generateButtonTemplate(btnType, btnIndex, text, title) {
 					if (btnType === 'LINK') {
 						return sprintf(
 							'<a ng-click="col.colDef.buttons[%s].execute(row)" title="%s">' +
+								'{{ col.colDef.buttons[%s].text(row) }}' +
 							'</a>',
-							btnIndex, title || '');
+							btnIndex, title || '', btnIndex);
 					} else {
 						var buttonClass = '';
 						switch (btnType) {
