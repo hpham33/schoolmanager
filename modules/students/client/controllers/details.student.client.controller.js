@@ -19,7 +19,6 @@ angular.module('students').controller('DetailsStudentController',
 			var userHasPermission = Authentication.isAdmin() || Authentication.isUser();
 
 			$scope.statistic = _.clone(defaultStatistic);
-			$scope.filterData = _.clone(defaultFilterData);
 
 			$scope.data = {
 				__id: $stateParams.studentId,
@@ -107,7 +106,7 @@ angular.module('students').controller('DetailsStudentController',
                     }
                 },
                 resource: Transactions,
-                searchParams: $scope.filterData
+                searchParams: _.clone(defaultFilterData)
             };
 
 			function formatImportedObjects(objects) {
@@ -210,48 +209,18 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.findTransaction = function () {
-                $scope.gridConfig.searchParams = $scope.filterData;
                 var findPromise = $scope.gridConfig.executeSearch();
-                var totalAmountPromise = $scope.getTotalAmount();
+                var totalAmountPromise = getTotalAmount();
                 return $q.all([findPromise, totalAmountPromise]);
 			};
 
-			$scope.getTotalAmount = function () {
-				return Transactions.totalAmount($scope.filterData).$promise.then(function (response) {
+			function getTotalAmount() {
+				return Transactions.totalAmount($scope.gridConfig.searchParams).$promise.then(function (response) {
 					$scope.statistic.totalAmountIn = response.totalAmountIn || 0;
 					$scope.statistic.totalAmountOut = response.totalAmountOut || 0;
 					$scope.statistic.balance = response.balance || 0;
 				});
-			};
+			}
 
-			$scope.reset = function () {
-				$scope.filterData = _.clone(defaultFilterData);
-				return $scope.findTransaction();
-			};
-
-			$scope.findCurrent = function() {
-				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentMonth();
-				$scope.filterData.dateTo =hpUtils.lastDayOfCurrentMonth();
-				return $scope.findTransaction();
-			};
-
-			$scope.findNextMonth = function() {
-				$scope.filterData.dateFrom = hpUtils.firstDayOfNextMonth();
-				$scope.filterData.dateTo =hpUtils.lastDayOfNextMonth();
-				return $scope.findTransaction();
-			};
-
-			$scope.findLastMonth = function() {
-				$scope.filterData.dateFrom = hpUtils.firstDayOfLastMonth();
-				$scope.filterData.dateTo =hpUtils.lastDayOfLastMonth();
-				return $scope.findTransaction();
-			};
-
-			$scope.findCurrentYear = function() {
-				$scope.filterData.dateFrom = hpUtils.firstDayOfCurrentYear();
-				$scope.filterData.dateTo = hpUtils.lastDayOfCurrentYear();
-				return $scope.findTransaction();
-			};
-
-            $scope.getTotalAmount();
+            getTotalAmount();
 		}]);

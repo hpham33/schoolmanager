@@ -1,6 +1,6 @@
 'use strict';
 
-// Students controller
+// Statistic controller
 angular.module('statistics').controller('ListStatisticController',
 	['$log', '$rootScope', '$scope', '$state', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
 		function ($log, $rootScope, $scope, $state, $modal, Statistics, PaginationService, hpUtils) {

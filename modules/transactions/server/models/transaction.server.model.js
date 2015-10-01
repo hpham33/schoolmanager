@@ -33,7 +33,8 @@ var TransactionSchema = new Schema({
 	},
     student: {
         type: Schema.ObjectId,
-        ref: 'Student'
+        ref: 'Student',
+        index: true
     },
 	user: {
 		type: Schema.ObjectId,

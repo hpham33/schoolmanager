@@ -1,41 +1,41 @@
 <form name="mainForm" class="form-inline" novalidate>
-  <div class="form-group" style="margin-right: 20px;">
-    <label class="control-label">Từ ngày &nbsp;</label>
-    <hp-date-picker
-      model="vm.filterData.dateFrom"
-      name="dateFrom"
-      is-required="true">
-    </hp-date-picker>
-  </div>
-
-  <div class="form-group" style="margin-right: 20px;" show-errors>
-    <label class="control-label">Đến ngày &nbsp;</label>
-    <hp-date-picker
-      model="vm.filterData.dateTo"
-      name="dateTo"
-      is-required="true">
-    </hp-date-picker>
-  </div>
-
-  <div class="form-group">
-    <div class="btn-group" style="margin-right: 20px;">
-      <button type="button" class="btn btn-default" hp-click-and-wait="vm.search()"
-              title="Tìm">
-        <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-      </button>
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="" ng-click="vm.findCurrent()">Tìm tháng hiện tại</a></li>
-        <li><a href="" ng-click="vm.findLastMonth()">Tìm tháng trước</a></li>
-        <li><a href="" ng-click="vm.findNextMonth()">Tìm tháng tới</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="" ng-click="vm.findCurrentYear()">Tìm năm hiện tại</a></li>
-      </ul>
+    <div class="form-group" style="margin-right: 20px;">
+        <label class="control-label">Từ ngày &nbsp;</label>
+        <hp-date-picker
+                model="vm.filterData.dateFrom"
+                name="dateFrom"
+                is-required="true">
+        </hp-date-picker>
     </div>
-  </div>
-  <div ng-transclude></div>
+
+    <div class="form-group" style="margin-right: 20px;" show-errors>
+        <label class="control-label">Đến ngày &nbsp;</label>
+        <hp-date-picker
+                model="vm.filterData.dateTo"
+                name="dateTo"
+                is-required="true">
+        </hp-date-picker>
+    </div>
+
+    <div class="form-group">
+        <div class="btn-group" style="margin-right: 20px;">
+            <button type="button" class="btn btn-default" hp-click-and-wait="vm.search()"
+                    title="Tìm" ng-disabled="mainForm.$invalid">
+                <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
+            </button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="" ng-click="vm.findCurrent()">Tìm tháng hiện tại</a></li>
+                <li><a href="" ng-click="vm.findLastMonth()">Tìm tháng trước</a></li>
+                <li><a href="" ng-click="vm.findNextMonth()">Tìm tháng tới</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="" ng-click="vm.findCurrentYear()">Tìm năm hiện tại</a></li>
+            </ul>
+        </div>
+    </div>
+    <span ng-transclude></span>
 </form>
