@@ -9,7 +9,7 @@ angular.module('students').controller('ListStudentController',
 
 			$scope.gridConfig = {
                 gridOptions : {
-                    //enableGridMenu: $scope.userHasPermission,
+                    enableGridMenu: $scope.userHasPermission,
                     useExternalSorting: true,
                     columnDefs: [
                         {
@@ -56,9 +56,12 @@ angular.module('students').controller('ListStudentController',
                         }
                     ],
                     importerDataAddCallback: function (grid, newObjects) {
+                        $scope.gridConfig.showSpinner();
                         Students.saveAll({}, newObjects).$promise.then(function (response) {
                             $log.info(response);
                             $scope.find();
+                        }).finally(function() {
+                            $scope.gridConfig.removeSpinner();
                         });
                     },
                     data: []
@@ -66,6 +69,7 @@ angular.module('students').controller('ListStudentController',
                 resource: Students,
                 searchParams: {}
             };
+
 
 			$scope.openEditStudentDialog = function (row) {
 				var modalInstance = $modal.open({

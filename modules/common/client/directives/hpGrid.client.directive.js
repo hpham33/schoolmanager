@@ -15,6 +15,29 @@ angular.module('common').directive('hpGrid',
 				vm.gridConfig['isLoading'] = false;
 				vm.gridConfig['searchParams'] = vm.gridConfig.searchParams || {};
 
+                vm.gridConfig.showSpinner = function() {
+                    vm.spinner = vm.gridApi.grid.element.find('.ui-grid-contents-wrapper>.spinner');
+                    if (vm.spinner.length === 0) {
+                        var spinnerStr =
+                            '<div class="spinner"><div class="spinner-content">' +
+                            '<div class="rect1"></div>' +
+                            '<div class="rect2"></div>' +
+                            '<div class="rect3"></div>' +
+                            '<div class="rect4"></div>' +
+                            '<div class="rect5"></div>' +
+                            '</div></div>';
+                        vm.gridApi.grid.element.find('.ui-grid-contents-wrapper').append(angular.element(spinnerStr));
+                    } else {
+
+                    }
+                };
+
+                vm.gridConfig.removeSpinner = function() {
+                    if (vm.gridApi.grid.element.find('.ui-grid-contents-wrapper>.spinner').length > 0) {
+                        vm.gridApi.grid.element.find('.ui-grid-contents-wrapper>.spinner').remove();
+                    }
+                };
+
 				vm.gridConfig.gridOptions.onRegisterApi = function (gridApi) {
 					vm.gridApi = gridApi;
 					if (gridApi.infiniteScroll) {
@@ -36,6 +59,7 @@ angular.module('common').directive('hpGrid',
 				vm.getDataDown = function () {
 					if (vm.page.hasNext()) {
 						vm.gridConfig['isLoading'] = true;
+                        vm.gridConfig.showSpinner();
 						vm.page.next().then(function (page) {
 							vm.gridApi.infiniteScroll.saveScrollPercentage();
 							vm.page = page;
@@ -43,6 +67,7 @@ angular.module('common').directive('hpGrid',
 							vm.gridApi.infiniteScroll.dataLoaded(false, vm.page.hasNext());
 						}).finally(function () {
 							vm.gridConfig['isLoading'] = false;
+                            vm.gridConfig.removeSpinner();
 						});
 					}
 				};
