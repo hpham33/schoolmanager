@@ -21,7 +21,10 @@ module.exports = {
 				'public/lib/angular-ui-grid/ui-grid.min.js',
 				'public/lib/csv-js/csv.js',
 				'public/lib/lodash/lodash.min.js',
-				'public/lib/bootstrap/dist/js/bootstrap.min.js'
+				'public/lib/bootstrap/dist/js/bootstrap.min.js',
+				'public/lib/sprintf/dist/sprintf.min.js',
+				'public/lib/pdfmake/build/pdfmake.min.js',
+				'public/lib/pdfmake/build/vfs_fonts.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
