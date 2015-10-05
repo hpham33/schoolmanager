@@ -74,6 +74,14 @@ angular.module('common').factory('hpUtils',
 			}
 		}
 
+        function objectToArray(object, propertiesArray) {
+            var result = [];
+            _.forEach(propertiesArray, function(property) {
+                result.push(object[property].toString());
+            });
+            return result;
+        }
+
 		return {
 			refineInputDate: refineInputDate,
 			firstDayOfNextMonth: firstDayOfNextMonth,
@@ -86,6 +94,7 @@ angular.module('common').factory('hpUtils',
 			lastDayOfCurrentYear: lastDayOfCurrentYear,
 			hasAuthorization: hasAuthorization,
 			userHasRoles: userHasRoles,
-			refinePhoneNumber: refinePhoneNumber
+			refinePhoneNumber: refinePhoneNumber,
+            objectToArray: objectToArray
 		};
 	}]);

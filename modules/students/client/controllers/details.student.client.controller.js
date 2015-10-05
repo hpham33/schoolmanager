@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('students').controller('DetailsStudentController',
-	['$log', '$q', '$rootScope', '$scope', '$stateParams', '$location', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
-		function ($log, $q, $rootScope, $scope, $stateParams, $location, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
+	['$log', '$q', '$rootScope', '$scope', '$stateParams', '$location', '$filter', '$modal', 'Authentication', 'PaginationService', 'Students', 'Transactions', 'DetailsMixin', 'hpUtils',
+		function ($log, $q, $rootScope, $scope, $stateParams, $location, $filter, $modal, Authentication, PaginationService, Students, Transactions, DetailsMixin, hpUtils) {
 
 			var defaultStatistic = {
 				totalAmountIn: 0,
@@ -219,6 +219,35 @@ angular.module('students').controller('DetailsStudentController',
                 var totalAmountPromise = getTotalAmount();
                 return $q.all([findPromise, totalAmountPromise]);
 			};
+
+            $scope.exportPDF = function() {
+                var dd = {
+                    content: [
+                        'Chi tiết thu chi học sinh ' + $scope.details.data.name,
+                        'Từ ngày ' + $scope.gridConfig.searchParams.dateFrom + ' đến ngày ' + $scope.gridConfig.searchParams.dateTo,
+                        sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
+                            $filter('currencyFilter')($scope.statistic.totalAmountIn),
+                            $filter('currencyFilter')($scope.statistic.totalAmountOut),
+                            $filter('currencyFilter')($scope.statistic.balance)),
+                        {
+                            style: 'tableExample',
+                            table: {
+                                headerRows: 1,
+                                body: [
+                                    [{ text: 'Header 1', style: 'tableHeader' }, { text: 'Header 2', style: 'tableHeader'}, { text: 'Header 3', style: 'tableHeader' }],
+                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ]
+                                ]
+                            },
+                            layout: 'lightHorizontalLines'
+                        }
+                    ]
+                };
+                pdfMake.createPdf(dd).open();
+            };
 
 			function getTotalAmount() {
 				return Transactions.totalAmount($scope.gridConfig.searchParams).$promise.then(function (response) {

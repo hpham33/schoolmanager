@@ -40,19 +40,30 @@ angular.module('students').controller('ListStudentController',
                             width: '100',
                             enableHiding: false,
                             enableSorting: false,
-                            buttons: [{
-                            type: 'EDIT',
-                            title: 'Thay đổi thông tin học sinh',
-                            execute: function(row) {
-                                $scope.openEditStudentDialog(row);
-                            }
-                        }, {
-                            type: 'DELETE',
-                            title: 'Xóa học sinh',
-                            execute: function(row) {
-                                $scope.openDeleteStudentDialog(row);
-                            }
-                        }]
+                            buttons: [
+                                {
+                                    type: 'EDIT',
+                                    title: 'Thay đổi thông tin học sinh',
+                                    execute: function(row) {
+                                        $scope.openEditStudentDialog(row);
+                                    },
+                                    condition: function(row) {
+                                        return Authentication.isAdmin() ||
+                                            Authentication.user._id === row.entity.user._id;
+                                    }
+                                },
+                                {
+                                    type: 'DELETE',
+                                    title: 'Xóa học sinh',
+                                    execute: function(row) {
+                                        $scope.openDeleteStudentDialog(row);
+                                    },
+                                    condition: function(row) {
+                                        return Authentication.isAdmin() ||
+                                            Authentication.user._id === row.entity.user._id;
+                                    }
+                                }
+                            ]
                         }
                     ],
                     importerDataAddCallback: function (grid, newObjects) {
