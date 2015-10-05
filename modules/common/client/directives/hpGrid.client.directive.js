@@ -73,15 +73,17 @@ angular.module('common').directive('hpGrid',
 				};
 
 				vm.sortChanged = function (grid, sortColumns) {
-					if (sortColumns.length > 0) {
-						vm.gridConfig.searchParams.orderBy = sortColumns[0].field;
-						if (sortColumns[0].sort.direction === 'desc') {
-							vm.gridConfig.searchParams.orderBy = '-' + sortColumns[0].field;
-						}
-					} else {
-						delete vm.gridConfig.searchParams.orderBy;
-					}
-					vm.gridConfig['executeSearch']();
+                    if (vm.gridConfig.gridOptions.useExternalSorting === true) {
+                        if (sortColumns.length > 0) {
+                            vm.gridConfig.searchParams.orderBy = sortColumns[0].field;
+                            if (sortColumns[0].sort.direction === 'desc') {
+                                vm.gridConfig.searchParams.orderBy = '-' + sortColumns[0].field;
+                            }
+                        } else {
+                            delete vm.gridConfig.searchParams.orderBy;
+                        }
+                        vm.gridConfig['executeSearch']();
+                    }
 				};
 
 
@@ -92,9 +94,6 @@ angular.module('common').directive('hpGrid',
 							var btnTemplate = '';
 
 							for (var i = 0, len = columnDef.buttons.length; i < len; i++) {
-								//if (!columnDef.buttons[i].condition) {
-								//	columnDef.buttons[i].condition = function() { return true; };
-								//}
 								btnTemplate += generateButtonTemplate(columnDef.buttons[i].type, i, columnDef.buttons[i].title);
 							}
 

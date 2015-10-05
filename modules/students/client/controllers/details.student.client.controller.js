@@ -35,6 +35,7 @@ angular.module('students').controller('DetailsStudentController',
 			$scope.gridConfig = {
                 gridOptions : {
                     enableGridMenu: userHasPermission,
+                    useExternalSorting: true,
                     columnDefs: [
                         {
                             name: 'created',
