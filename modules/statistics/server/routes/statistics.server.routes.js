@@ -10,4 +10,7 @@ module.exports = function (app) {
   // Articles collection routes
   app.route('/api/statistics')
     .get(statistics.list);
+
+	app.route('/api/statistics/totalAmount')
+		.get(statistics.totalAmount);
 };

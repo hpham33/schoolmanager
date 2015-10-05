@@ -10,6 +10,49 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     _ = require('lodash');
 
+exports.totalAmount = function(req, res) {
+	Transaction.aggregate([
+		{
+			$match: {
+				created: { $gte: new Date(req.query.dateFrom), $lte: new Date(req.query.dateTo) }
+			}
+		},
+		{
+			$project: {
+				amountIn: {
+					$cond: [{$eq: ['$type', 'in']}, '$amount', 0]
+				},
+				amountOut: {
+					$cond: [{$eq: ['$type', 'out']}, '$amount', 0]
+				}
+			}
+		},
+		{
+			$group:
+			{
+				_id: null,
+				totalAmountIn: { $sum: '$amountIn' },
+				totalAmountOut: { $sum: '$amountOut' }
+			}
+		},
+		{
+			$project: {
+				totalAmountIn: 1,
+				totalAmountOut: 1,
+				balance: { $subtract: ['$totalAmountIn', '$totalAmountOut'] }
+			}
+		}
+	], function (err, result) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(result[0]);
+		}
+	});
+};
+
 /**
  * List of Statistics
  */

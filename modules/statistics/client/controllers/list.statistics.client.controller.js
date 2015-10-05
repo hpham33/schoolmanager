@@ -2,16 +2,22 @@
 
 // Statistic controller
 angular.module('statistics').controller('ListStatisticController',
-	['$log', '$rootScope', '$scope', '$state', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
-		function ($log, $rootScope, $scope, $state, $modal, Statistics, PaginationService, hpUtils) {
+	['$log', '$q', '$rootScope', '$scope', '$state', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
+		function ($log, $q, $rootScope, $scope, $state, $modal, Statistics, PaginationService, hpUtils) {
 			var defaultFilterData = {
 				dateFrom: hpUtils.firstDayOfCurrentMonth(),
 				dateTo: hpUtils.lastDayOfCurrentMonth()
 			};
 
+			$scope.statistic = {
+				totalAmountIn: 0,
+				totalAmountOut: 0,
+				balance: 0
+			};
+
 			$scope.gridConfig = {
 				gridOptions: {
-					useExternalSorting: true,
+					useExternalSorting: false,
 					columnDefs: [
 						{
 							name: '_id',
@@ -75,7 +81,19 @@ angular.module('statistics').controller('ListStatisticController',
 
 			// Find a list of Statistics
 			$scope.find = function () {
-				return $scope.gridConfig.executeSearch();
+				var findPromise = $scope.gridConfig.executeSearch();
+				var totalAmountPromise = $scope.getTotalAmount();
+				return $q.all([findPromise, totalAmountPromise]);
 			};
+
+			$scope.getTotalAmount = function() {
+				return Statistics.totalAmount($scope.gridConfig.searchParams).$promise.then(function (response) {
+					$scope.statistic.totalAmountIn = response.totalAmountIn || 0;
+					$scope.statistic.totalAmountOut = response.totalAmountOut || 0;
+					$scope.statistic.balance = response.balance || 0;
+				});
+			};
+
+			$scope.getTotalAmount();
 		}
 	]);
