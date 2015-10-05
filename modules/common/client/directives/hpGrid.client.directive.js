@@ -103,7 +103,7 @@ angular.module('common').directive('hpGrid',
 					});
 				}
 
-				function generateButtonTemplate(btnType, btnIndex, text, title) {
+				function generateButtonTemplate(btnType, btnIndex, title) {
 					if (btnType === 'LINK') {
 						return sprintf(
 							'<a ng-click="col.colDef.buttons[%s].execute(row)" title="%s" class="clickable">' +
