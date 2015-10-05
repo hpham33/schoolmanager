@@ -236,11 +236,8 @@ angular.module('students').controller('DetailsStudentController',
                                 headerRows: 1,
                                 body: [
                                     [{ text: 'Header 1', style: 'tableHeader' }, { text: 'Header 2', style: 'tableHeader'}, { text: 'Header 3', style: 'tableHeader' }],
-                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-                                    [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ]
+                                    //formatTransaction($scope.gridConfig.gridOptions.data[0])
+                                    ['abc', 'xyz', '']
                                 ]
                             },
                             layout: 'lightHorizontalLines'
@@ -257,6 +254,35 @@ angular.module('students').controller('DetailsStudentController',
 					$scope.statistic.balance = response.balance || 0;
 				});
 			}
+
+            function formatTransaction(transaction) {
+                var result = [];
+                _.forEach(transaction, function(value, key) {
+                    switch(key) {
+                        case '_id':
+                        case 'student':
+                        case 'user':
+                        case '__v':
+                        case '$$hashKey':
+                            break;
+                        case 'created':
+                            var createdStr = sprintf('%s.%s.%s', value.substr(8, 2), value.substr(5, 2), value.substr(0, 4));
+                            result.push(createdStr);
+                            break;
+                        default:
+                            result.push(value.toString());
+                    }
+                });
+                return result;
+            }
+
+            function formatTransactionData() {
+                var result = [];
+                _.forEach($scope.gridConfig.gridOptions.data, function(transaction) {
+                    result.push(formatTransaction(transaction));
+                });
+                return result;
+            }
 
             getTotalAmount();
 		}]);
