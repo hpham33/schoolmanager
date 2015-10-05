@@ -83,25 +83,36 @@ angular.module('students').controller('DetailsStudentController',
                                 title: 'Thay đổi thông tin chi tiêu',
                                 execute: function(row) {
                                     $scope.openEditTransactionDialog(row);
-                                }
+                                },
+	                            condition: function(row) {
+		                            return Authentication.isAdmin() ||
+			                            Authentication.user._id === row.entity.user._id;
+	                            }
                             }, {
                                 type: 'DELETE',
                                 title: 'Xóa khoản chi tiêu',
                                 execute: function(row) {
                                     $scope.openDeleteTransactionDialog(row);
-                                }
+                                },
+	                            condition: function(row) {
+		                            return Authentication.isAdmin() ||
+			                            Authentication.user._id === row.entity.user._id;
+	                            }
                             }]
                         }
                     ],
                     data: [],
                     minRowsToShow: 6,
                     importerDataAddCallback: function (grid, newObjects) {
+	                    $scope.gridConfig.showSpinner();
                         //$log.info(newObjects);
                         var formattedObjects = formatImportedObjects(newObjects);
                         //$log.info(formattedObjects);
                         Transactions.saveAll({}, formattedObjects).$promise.then(function (response) {
                             $log.info(response);
                             $scope.findTransaction();
+                        }).finally(function() {
+	                        $scope.gridConfig.removeSpinner();
                         });
                     }
                 },
@@ -140,11 +151,6 @@ angular.module('students').controller('DetailsStudentController',
 					($scope.details &&
 					$scope.details.data &&
 					$scope.details.data.user._id === Authentication.user._id);
-			};
-
-			$scope.currentUserCanEditTransaction = function (transaction) {
-				return Authentication.isAdmin() ||
-					Authentication.user._id === transaction.user._id;
 			};
 
 			$scope.openEditTransactionDialog = function (row) {

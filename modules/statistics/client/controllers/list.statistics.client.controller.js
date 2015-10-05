@@ -18,6 +18,7 @@ angular.module('statistics').controller('ListStatisticController',
 			$scope.gridConfig = {
 				gridOptions: {
 					useExternalSorting: false,
+					enableGridMenu: false,
 					columnDefs: [
 						{
 							name: '_id',
@@ -65,7 +66,8 @@ angular.module('statistics').controller('ListStatisticController',
 							'</div>'
 						}
 					],
-					data: []
+					data: [],
+					importerDataAddCallback: function (grid, newObjects) {}
 				},
 				resource: Statistics,
 				searchParams: _.clone(defaultFilterData)

@@ -92,6 +92,9 @@ angular.module('common').directive('hpGrid',
 							var btnTemplate = '';
 
 							for (var i = 0, len = columnDef.buttons.length; i < len; i++) {
+								//if (!columnDef.buttons[i].condition) {
+								//	columnDef.buttons[i].condition = function() { return true; };
+								//}
 								btnTemplate += generateButtonTemplate(columnDef.buttons[i].type, i, columnDef.buttons[i].title);
 							}
 
@@ -118,10 +121,10 @@ angular.module('common').directive('hpGrid',
 								break;
 						}
 						return sprintf(
-							'&nbsp;&nbsp;<button class="btn btn-default btn-xs" ng-click="col.colDef.buttons[%s].execute(row)" title="%s">' +
+							'&nbsp;&nbsp;<button class="btn btn-default btn-xs" ng-click="col.colDef.buttons[%s].execute(row)" ng-if="col.colDef.buttons[%s].condition(row)" title="%s">' +
 							'<i class="glyphicon %s"></i>' +
 							'</button>&nbsp;&nbsp;',
-							btnIndex, title || '', buttonClass);
+							btnIndex, btnIndex, title || '', buttonClass);
 					}
 				}
 
