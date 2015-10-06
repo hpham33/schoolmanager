@@ -17,17 +17,16 @@ angular.module('common')
 			compile: function (element, attr) {
 				var fn = $parse(attr.hpClickAndWait);
 				return function clickHandler(scope, element, attrs) {
-					// var icon = element.find('i');
+					var icon = angular.element('<i class="glyphicon glyphicon-cog glyphicon-spin"></i>');
+					var btnIcon = element.find('i.glyphicon');
 					element.on('click', function (event) {
-						//if (icon && icon.length > 0) {
-						//	icon.first().addClass('glyphicon glyphicon-refresh glyphicon-spin');
-						//}
+						btnIcon.remove();
+						element.prepend(icon);
 						attrs.$set('disabled', true);
 						scope.$apply(function () {
 							fn(scope, {$event: event}).finally(function () {
-								//if (icon && icon.length > 0) {
-								//	icon.first().removeClass('glyphicon-refresh glyphicon-spin');
-								//}
+								icon.remove();
+								element.prepend(btnIcon);
 								attrs.$set('disabled', false);
 							});
 						});
