@@ -35,6 +35,18 @@ angular.module('students').controller('ListStudentController',
                             enableHiding: false
                         },
                         {
+                            name: 'address',
+                            visible: false
+                        },
+                        {
+                            name: 'birthday',
+                            visible: false
+                        },
+                        {
+                            name: 'gender',
+                            visible: false
+                        },
+                        {
                             name: 'action',
                             displayName: '',
                             width: '100',
@@ -66,14 +78,68 @@ angular.module('students').controller('ListStudentController',
                             ]
                         }
                     ],
+                    importerErrorCallback: function (grid, errorKey, consoleMessage, context) {
+                        var modalInstance = $modal.open({
+                            animation: true,
+                            templateUrl: 'modules/students/client/views/error-import-student.client.view.html',
+                            controller: 'ErrorImportStudentController',
+                            resolve: {
+                                consoleMessage: function () {
+                                    return consoleMessage;
+                                }
+                            }
+                        });
+
+                        modalInstance.result.then(function () {
+                            $scope.find();
+                        }, function () {
+                            $log.info('Modal dismissed at: ' + new Date());
+                        });
+                    },
                     importerDataAddCallback: function (grid, newObjects) {
                         $scope.gridConfig.showSpinner();
                         Students.saveAll({}, newObjects).$promise.then(function (response) {
-                            $log.info(response);
+                            var modalInstance = $modal.open({
+                                animation: true,
+                                templateUrl: 'modules/students/client/views/success-import-student.client.view.html',
+                                controller: 'SuccessImportStudentController',
+                                resolve: {
+                                    totalCreated: function () {
+                                        return response[0].totalCreated;
+                                    }
+                                }
+                            });
+
                             $scope.find();
                         }).finally(function() {
                             $scope.gridConfig.removeSpinner();
                         });
+                    },
+                    importerObjectCallback: function (grid, newObject) {
+                        if (newObject.birthday) {
+                            newObject.birthday = new Date(newObject.birthday);
+                            newObject.birthday.setHours(0);
+                            newObject.birthday.setMinutes(0);
+                            newObject.birthday.setSeconds(0);
+                            newObject.birthday.setMilliseconds(0);
+                        }
+                        if (newObject.gender) {
+                            switch (newObject.gender) {
+                                case 'nam':
+                                case 'Nam':
+                                case 'NAM':
+                                    newObject.gender = 'male';
+                                    break;
+                                case 'Nữ':
+                                case 'nữ':
+                                case 'NỮ':
+                                    newObject.gender = 'female';
+                                    break;
+                            }
+                        } else {
+                            delete newObject.gender;
+                        }
+                        return newObject;
                     },
                     data: []
                 },
