@@ -222,6 +222,12 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
             $scope.exportPDF = function() {
+	            function formatTransactionData() {
+		            _.forEach($scope.gridConfig.gridOptions.data, function(transaction) {
+			            dd.content[3].table.body.push(formatTransaction(transaction));
+		            });
+	            }
+
                 var dd = {
                     content: [
                         'Chi tiết thu chi học sinh ' + $scope.details.data.name,
@@ -235,15 +241,15 @@ angular.module('students').controller('DetailsStudentController',
                             table: {
                                 headerRows: 1,
                                 body: [
-                                    [{ text: 'Header 1', style: 'tableHeader' }, { text: 'Header 2', style: 'tableHeader'}, { text: 'Header 3', style: 'tableHeader' }],
-                                    //formatTransaction($scope.gridConfig.gridOptions.data[0])
-                                    ['abc', 'xyz', '']
+                                    [{ text: 'Ngày', style: 'tableHeader' }, { text: 'Thu', style: 'tableHeader'}, { text: 'Chi', style: 'tableHeader' }, { text: 'Ghi chú', style: 'tableHeader' }],
+
                                 ]
                             },
                             layout: 'lightHorizontalLines'
                         }
                     ]
                 };
+	            formatTransactionData();
                 pdfMake.createPdf(dd).open();
             };
 
@@ -257,32 +263,24 @@ angular.module('students').controller('DetailsStudentController',
 
             function formatTransaction(transaction) {
                 var result = [];
-                _.forEach(transaction, function(value, key) {
-                    switch(key) {
-                        case '_id':
-                        case 'student':
-                        case 'user':
-                        case '__v':
-                        case '$$hashKey':
-                            break;
-                        case 'created':
-                            var createdStr = sprintf('%s.%s.%s', value.substr(8, 2), value.substr(5, 2), value.substr(0, 4));
-                            result.push(createdStr);
-                            break;
-                        default:
-                            result.push(value.toString());
-                    }
-                });
+	            var createdDate = new Date(transaction.created);
+                var createdStr = sprintf('%s.%s.%s',
+	                createdDate.getDate(),
+	                createdDate.getMonth() + 1,
+	                createdDate.getFullYear());
+                result.push(createdStr);
+
+                var amountIn = $filter('amountFilter')(transaction, 'in');
+                result.push(amountIn);
+
+	            var amountOut = $filter('amountFilter')(transaction, 'out');
+	            result.push(amountOut);
+
+                result.push(transaction.description);
                 return result;
             }
 
-            function formatTransactionData() {
-                var result = [];
-                _.forEach($scope.gridConfig.gridOptions.data, function(transaction) {
-                    result.push(formatTransaction(transaction));
-                });
-                return result;
-            }
+
 
             getTotalAmount();
 		}]);
