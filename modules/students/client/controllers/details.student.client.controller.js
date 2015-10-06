@@ -231,7 +231,7 @@ angular.module('students').controller('DetailsStudentController',
                 var dd = {
                     content: [
                         'Chi tiết thu chi học sinh ' + $scope.details.data.name,
-                        'Từ ngày ' + $scope.gridConfig.searchParams.dateFrom + ' đến ngày ' + $scope.gridConfig.searchParams.dateTo,
+                        'Từ ngày ' + date2String($scope.gridConfig.searchParams.dateFrom) + ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo),
                         sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
                             $filter('currencyFilter')($scope.statistic.totalAmountIn),
                             $filter('currencyFilter')($scope.statistic.totalAmountOut),
@@ -280,7 +280,12 @@ angular.module('students').controller('DetailsStudentController',
                 return result;
             }
 
-
+			function date2String(date) {
+				return sprintf('%s.%s.%s',
+					date.getDate(),
+					date.getMonth() + 1,
+					date.getFullYear());
+			}
 
             getTotalAmount();
 		}]);
