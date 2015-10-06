@@ -47,6 +47,10 @@ angular.module('students').controller('ListStudentController',
                             visible: false
                         },
                         {
+                            name: 'class',
+                            visible: false
+                        },
+                        {
                             name: 'action',
                             displayName: '',
                             width: '100',

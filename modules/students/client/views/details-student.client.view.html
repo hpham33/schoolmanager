@@ -18,14 +18,14 @@
     <div class="row">
         <div class="col-sm-12">
             <hp-date-search-criteria search="findTransaction()" filter-data="gridConfig.searchParams">
-                <button type="button" class="btn btn-primary pull-right" title="Thêm khoản chi tiêu"
-                        ng-click="openEditTransactionDialog()">
-                    <i class="glyphicon glyphicon-plus"></i>
+                <button type="button" class="btn btn-default pull-right" title="Xuất ra PDF"
+                        ng-click="exportPDF()">
+                    <i class="glyphicon glyphicon-duplicate"></i>
                 </button>
 
-                <button type="button" class="btn btn-default pull-right" title="Xuất ra file PDF"
-                        ng-click="exportPDF()">
-                    PDF
+                <button type="button" class="btn btn-primary pull-right" title="Thêm khoản chi tiêu"
+                        style="margin-right: 10px;" ng-click="openEditTransactionDialog()">
+                    <i class="glyphicon glyphicon-plus"></i>
                 </button>
             </hp-date-search-criteria>
         </div>

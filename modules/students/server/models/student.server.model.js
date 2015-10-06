@@ -22,6 +22,10 @@ var StudentSchema = new Schema({
         required: 'Please fill Student name',
         trim: true
     },
+    class: {
+        type: String,
+        trim: true
+    },
     birthday: {
         type: Date
     },

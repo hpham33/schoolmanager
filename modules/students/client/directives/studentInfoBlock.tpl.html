@@ -1,6 +1,6 @@
-<div class="form-group" show-errors>
-    <label class="col-sm-4 control-label" for="studentId">Mã số học sinh</label>
-    <div class="col-sm-8 controls">
+<div class="form-group">
+    <label class="col-sm-3 control-label" for="studentId">Mã số học sinh</label>
+    <div class="col-sm-9 controls">
         <input type="text" name="studentId"
                ng-model="data.studentId" id="studentId"
                class="form-control"
@@ -8,9 +8,9 @@
     </div>
 </div>
 
-<div class="form-group" show-errors>
-    <label class="col-sm-4 control-label" for="name">Tên học sinh</label>
-    <div class="col-sm-8 controls">
+<div class="form-group">
+    <label class="col-sm-3 control-label" for="name">Tên học sinh</label>
+    <div class="col-sm-9 controls">
         <input type="text" name="name"
                ng-model="data.name" id="name"
                class="form-control"
@@ -19,15 +19,24 @@
 </div>
 
 <div class="form-group">
-    <label class="col-sm-4 control-label">Ngày sinh</label>
-    <div class="col-sm-8 controls">
+    <label class="col-sm-3 control-label" for="class">Lớp</label>
+    <div class="col-sm-9 controls">
+        <input type="text" name="class"
+               ng-model="data.class" id="class"
+               class="form-control">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">Ngày sinh</label>
+    <div class="col-sm-9 controls">
         <hp-date-picker model="data.birthday"></hp-date-picker>
     </div>
 </div>
 
 <div class="form-group">
-    <label class="col-sm-4 control-label">Giới tính</label>
-    <div class="col-sm-8">
+    <label class="col-sm-3 control-label">Giới tính</label>
+    <div class="col-sm-9">
         <label class="radio-inline">
             <input type="radio"
                    value="male"
@@ -42,15 +51,15 @@
 </div>
 
 <div class="form-group">
-    <label class="col-sm-4 control-label" for="address">Địa chỉ</label>
-    <div class="col-sm-8 controls">
+    <label class="col-sm-3 control-label" for="address">Địa chỉ</label>
+    <div class="col-sm-9 controls">
         <input type="text" ng-model="data.address" id="address" class="form-control">
     </div>
 </div>
 
 <div class="form-group">
-    <label class="col-sm-4 control-label" for="referrer">SĐT phụ huynh</label>
-    <div class="col-sm-8 controls">
+    <label class="col-sm-3 control-label" for="referrer">Điện thoại</label>
+    <div class="col-sm-9 controls">
         <input type="text" ng-model="data.referrer" id="referrer" class="form-control">
     </div>
 </div>
