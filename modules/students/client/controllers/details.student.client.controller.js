@@ -107,45 +107,38 @@ angular.module('students').controller('DetailsStudentController',
                     importerDataAddCallback: function (grid, newObjects) {
 	                    $scope.gridConfig.showSpinner();
                         //$log.info(newObjects);
-                        var formattedObjects = formatImportedObjects(newObjects);
-                        //$log.info(formattedObjects);
-                        Transactions.saveAll({}, formattedObjects).$promise.then(function (response) {
-                            $log.info(response);
+                        Transactions.saveAll({}, newObjects).$promise.then(function (response) {
                             $scope.findTransaction();
                         }).finally(function() {
 	                        $scope.gridConfig.removeSpinner();
                         });
-                    }
+                    },
+	                importerObjectCallback: function (grid, newObject) {
+		                if (newObject.created) {
+			                newObject.created = new Date(newObject.created);
+			                newObject.created.setHours(0);
+			                newObject.created.setMinutes(0);
+			                newObject.created.setSeconds(0);
+			                newObject.created.setMilliseconds(0);
+		                }
+		                if (newObject.amountIn) {
+			                newObject.amount = newObject.amountIn;
+			                newObject.type = 'in';
+		                }
+		                if (newObject.amountOut) {
+			                newObject.amount = newObject.amountOut;
+			                newObject.type = 'out';
+		                }
+		                delete newObject.amountIn;
+		                delete newObject.amountOut;
+		                newObject.student = $stateParams.studentId;
+
+		                return newObject;
+	                }
                 },
                 resource: Transactions,
                 searchParams: _.clone(defaultFilterData)
             };
-
-			function formatImportedObjects(objects) {
-				return _.map(objects, function (object) {
-					if (object.created) {
-						var createdDate = new Date(Date.parse(object.created));
-						createdDate.setHours(0);
-						createdDate.setMinutes(0);
-						createdDate.setSeconds(0);
-						createdDate.setMilliseconds(0);
-						object.created = createdDate;
-					}
-					if (object.amountIn) {
-						object.amount = object.amountIn;
-						object.type = 'in';
-					}
-					if (object.amountOut) {
-						object.amount = object.amountOut;
-						object.type = 'out';
-					}
-					delete object.amountIn;
-					delete object.amountOut;
-					object.student = $stateParams.studentId;
-
-					return object;
-				});
-			}
 
 			$scope.currentUserCanEditStudent = function () {
 				return Authentication.isAdmin() ||
@@ -221,37 +214,46 @@ angular.module('students').controller('DetailsStudentController',
                 return $q.all([findPromise, totalAmountPromise]);
 			};
 
-            $scope.exportPDF = function() {
-	            function formatTransactionData() {
-		            _.forEach($scope.gridConfig.gridOptions.data, function(transaction) {
-			            dd.content[3].table.body.push(formatTransaction(transaction));
-		            });
-	            }
+			$scope.exportPDF = function () {
+				var searchParams = _.clone($scope.gridConfig.searchParams);
+				searchParams.pageSize = 0;
+				PaginationService.page(Transactions.query, searchParams)
+					.then(function (page) {
+						var dd = {
+							content: [
+								'Chi tiết thu chi học sinh ' + $scope.details.data.name,
+								'Từ ngày ' + date2String($scope.gridConfig.searchParams.dateFrom) + ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo),
+								sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
+									$filter('currencyFilter')($scope.statistic.totalAmountIn),
+									$filter('currencyFilter')($scope.statistic.totalAmountOut),
+									$filter('currencyFilter')($scope.statistic.balance)),
+								{
+									style: 'tableExample',
+									table: {
+										headerRows: 1,
+										body: [
+											[{text: 'Ngày', style: 'tableHeader'}, {
+												text: 'Thu',
+												style: 'tableHeader'
+											}, {text: 'Chi', style: 'tableHeader'}, {
+												text: 'Ghi chú',
+												style: 'tableHeader'
+											}]
 
-                var dd = {
-                    content: [
-                        'Chi tiết thu chi học sinh ' + $scope.details.data.name,
-                        'Từ ngày ' + date2String($scope.gridConfig.searchParams.dateFrom) + ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo),
-                        sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
-                            $filter('currencyFilter')($scope.statistic.totalAmountIn),
-                            $filter('currencyFilter')($scope.statistic.totalAmountOut),
-                            $filter('currencyFilter')($scope.statistic.balance)),
-                        {
-                            style: 'tableExample',
-                            table: {
-                                headerRows: 1,
-                                body: [
-                                    [{ text: 'Ngày', style: 'tableHeader' }, { text: 'Thu', style: 'tableHeader'}, { text: 'Chi', style: 'tableHeader' }, { text: 'Ghi chú', style: 'tableHeader' }],
+										]
+									},
+									layout: 'lightHorizontalLines'
+								}
+							]
+						};
 
-                                ]
-                            },
-                            layout: 'lightHorizontalLines'
-                        }
-                    ]
-                };
-	            formatTransactionData();
-                pdfMake.createPdf(dd).open();
-            };
+						_.forEach(page.data, function (transaction) {
+							dd.content[3].table.body.push(formatTransaction(transaction));
+						});
+
+						pdfMake.createPdf(dd).open();
+					});
+			};
 
 			function getTotalAmount() {
 				return Transactions.totalAmount($scope.gridConfig.searchParams).$promise.then(function (response) {

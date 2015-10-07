@@ -3,22 +3,29 @@
 angular.module('common').provider('PaginationService', [
 	function() {
 		var defaults = {
-			pageIndex: 0,
-			pageSize: 20
+				pageIndex: 0,
+				pageSize: 20
 			},
 			PEEK_SIZE = 1;
 
 		function page(searchFn, searchParams, pageIndex) {
 			searchParams = searchParams || {};
-			var pageSize = searchParams.pageSize || defaults.pageSize;
 			var startPageIndex = pageIndex || defaults.pageIndex;
+			var pageSize;
+
+			if (_.isNull(searchParams.pageSize) || _.isUndefined(searchParams.pageSize) || _.isNaN(searchParams.pageSize)) {
+				pageSize = defaults.pageSize;
+			} else {
+				pageSize = searchParams.pageSize;
+			}
 
 			function loadPage() {
 				function preProcessData(searchResult) {
 					var data = searchResult;
 					var hasNextPage = searchResult.length === pageSize + PEEK_SIZE;
 
-					if (hasNextPage) {
+					if (pageSize !== 0 && hasNextPage) {
+						// return all data if pageSize is zero
 						data.splice(data.length - 1, 1);
 					}
 
@@ -28,8 +35,13 @@ angular.module('common').provider('PaginationService', [
 					};
 				}
 
-				searchParams.skip = startPageIndex * pageSize;
-				searchParams.limit = pageSize + PEEK_SIZE;
+				if (pageSize !== 0) {
+					searchParams.skip = startPageIndex * pageSize;
+					searchParams.limit = pageSize + PEEK_SIZE;
+				} else {
+					delete searchParams.skip;
+					delete searchParams.limit;
+				}
 
 				var searchFunction = searchFn.bind(null, searchParams);
 

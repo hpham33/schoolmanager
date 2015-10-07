@@ -93,9 +93,13 @@ exports.list = function (req, res) {
     });
 
     if (req.query) {
-        var skip = req.query.skip || 0;
-        var limit = req.query.limit || 10;
-        query.skip(skip).limit(limit);
+		if (req.query.skip) {
+			query.skip(req.query.skip);
+		}
+
+		if (req.query.limit) {
+			query.limit(req.query.limit);
+		}
 
         if (req.query.orderBy) {
             query.sort(req.query.orderBy);
