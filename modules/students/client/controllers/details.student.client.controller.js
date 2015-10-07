@@ -273,10 +273,10 @@ angular.module('students').controller('DetailsStudentController',
                 result.push(createdStr);
 
                 var amountIn = $filter('amountFilter')(transaction, 'in');
-                result.push(amountIn);
+                result.push({ text: amountIn, alignment: 'right' });
 
 	            var amountOut = $filter('amountFilter')(transaction, 'out');
-	            result.push(amountOut);
+	            result.push({ text: amountOut, alignment: 'right' });
 
                 result.push(transaction.description);
                 return result;

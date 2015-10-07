@@ -2,8 +2,8 @@
 
 // Statistic controller
 angular.module('statistics').controller('ListStatisticController',
-	['$log', '$q', '$rootScope', '$scope', '$state', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
-		function ($log, $q, $rootScope, $scope, $state, $modal, Statistics, PaginationService, hpUtils) {
+	['$log', '$q', '$rootScope', '$scope', '$state', '$filter', '$modal', 'Statistics', 'PaginationService', 'hpUtils',
+		function ($log, $q, $rootScope, $scope, $state, $filter, $modal, Statistics, PaginationService, hpUtils) {
 			var defaultFilterData = {
 				dateFrom: hpUtils.firstDayOfCurrentMonth(),
 				dateTo: hpUtils.lastDayOfCurrentMonth()
@@ -95,6 +95,65 @@ angular.module('statistics').controller('ListStatisticController',
 					$scope.statistic.balance = response.balance || 0;
 				});
 			};
+
+			$scope.exportPDF = function () {
+				var dd = {
+					content: [
+						'Bảng thống kê chi tiêu toàn trường',
+						'Từ ngày ' + date2String($scope.gridConfig.searchParams.dateFrom) + ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo),
+						sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
+							$filter('currencyFilter')($scope.statistic.totalAmountIn),
+							$filter('currencyFilter')($scope.statistic.totalAmountOut),
+							$filter('currencyFilter')($scope.statistic.balance)),
+						{
+							style: 'tableExample',
+							table: {
+								headerRows: 1,
+								body: [
+									[{text: 'Học sinh', style: 'tableHeader'}, {
+										text: 'Tổng thu',
+										style: 'tableHeader'
+									}, {text: 'Tổng chi', style: 'tableHeader'}, {
+										text: 'Còn lại',
+										style: 'tableHeader'
+									}]
+
+								]
+							},
+							layout: 'lightHorizontalLines'
+						}
+					]
+				};
+
+				_.forEach($scope.gridConfig.gridOptions.data, function (statistic) {
+					dd.content[3].table.body.push(formatStatistic(statistic));
+				});
+
+				pdfMake.createPdf(dd).open();
+			};
+
+			function date2String(date) {
+				return sprintf('%s.%s.%s',
+					date.getDate(),
+					date.getMonth() + 1,
+					date.getFullYear());
+			}
+
+			function formatStatistic(statistic) {
+				var result = [];
+				result.push(statistic._id.name);
+
+				var amountIn = $filter('currencyFilter')(statistic.totalAmountIn);
+				result.push({ text: amountIn, alignment: 'right' });
+
+				var amountOut = $filter('currencyFilter')(statistic.totalAmountOut);
+				result.push({ text: amountOut, alignment: 'right' });
+
+				var balance = $filter('currencyFilter')(statistic.balance);
+				result.push({ text: balance, alighment: 'right' });
+
+				return result;
+			}
 
 			$scope.getTotalAmount();
 		}

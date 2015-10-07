@@ -9,7 +9,12 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <hp-date-search-criteria search="find()" filter-data="gridConfig.searchParams"></hp-date-search-criteria>
+            <hp-date-search-criteria search="find()" filter-data="gridConfig.searchParams">
+              <button type="button" class="btn btn-default pull-right" title="Xuất ra PDF"
+                      ng-click="exportPDF()">
+                <i class="glyphicon glyphicon-duplicate"></i>&nbsp;Xuất PDF
+              </button>
+            </hp-date-search-criteria>
         </div>
 
         <div class="col-sm-12  margin-top-20">
