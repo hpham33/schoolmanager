@@ -1,4 +1,4 @@
-<div class="container" ng-controller="HeaderController">
+<div class="container-fluid" ng-controller="HeaderController">
     <div class="navbar-header">
         <button class="navbar-toggle" type="button" ng-click="toggleCollapsibleMenu()">
             <span class="sr-only">Toggle navigation</span>
@@ -9,7 +9,7 @@
         <a ui-sref="home" class="navbar-brand">schoolmanager</a>
     </div>
     <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-        <ul class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
+        <ul id="mainMenu" class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
             <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);"
                 ng-switch="item.type"
                 ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }"

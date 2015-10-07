@@ -7538,14 +7538,11 @@ body {
   border-bottom-width: 2px;
   border-bottom-color: #2196f3;
   color: #2196f3;
+  text-transform: uppercase;
 }
 .ui-grid-cell {
   border-right: none;
   border-bottom: 1px solid #d4d4d4;
-}
-.ui-grid-cell-contents {
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 .ui-grid-row:hover {
   background-color: #eeeeee;
@@ -7669,4 +7666,18 @@ input[type=number] {
     transform: scaleY(1);
     -webkit-transform: scaleY(1);
   }
+}
+#mainMenu > li {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#mainMenu > li > ul > li {
+  text-transform: none;
+}
+html,
+body {
+  height: 100%;
+}
+section[ui-view] {
+  height: 100%;
 }

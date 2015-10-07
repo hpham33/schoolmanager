@@ -110,14 +110,23 @@ angular.module('statistics').controller('ListStatisticController',
 							table: {
 								headerRows: 1,
 								body: [
-									[{text: 'Học sinh', style: 'tableHeader'}, {
-										text: 'Tổng thu',
-										style: 'tableHeader'
-									}, {text: 'Tổng chi', style: 'tableHeader'}, {
-										text: 'Còn lại',
-										style: 'tableHeader'
-									}]
-
+									[
+                                        {
+                                            text: 'Học sinh', style: 'tableHeader'
+                                        }, {
+										    text: 'Tổng thu',
+                                            alignment: 'right',
+										    style: 'tableHeader'
+									    }, {
+                                            text: 'Tổng chi',
+                                            alignment: 'right',
+                                            style: 'tableHeader'
+                                        }, {
+										    text: 'Còn lại',
+                                            alignment: 'right',
+										    style: 'tableHeader'
+									    }
+                                    ]
 								]
 							},
 							layout: 'lightHorizontalLines'

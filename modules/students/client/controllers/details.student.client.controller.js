@@ -232,14 +232,22 @@ angular.module('students').controller('DetailsStudentController',
 									table: {
 										headerRows: 1,
 										body: [
-											[{text: 'Ngày', style: 'tableHeader'}, {
-												text: 'Thu',
-												style: 'tableHeader'
-											}, {text: 'Chi', style: 'tableHeader'}, {
-												text: 'Ghi chú',
-												style: 'tableHeader'
-											}]
-
+											[
+                                                {
+                                                    text: 'Ngày', style: 'tableHeader'
+                                                }, {
+												    text: 'Thu',
+                                                    alignment: 'right',
+												    style: 'tableHeader'
+											    }, {
+                                                    text: 'Chi',
+                                                    alignment: 'right',
+                                                    style: 'tableHeader'
+                                                }, {
+												    text: 'Ghi chú',
+												    style: 'tableHeader'
+											    }
+                                            ]
 										]
 									},
 									layout: 'lightHorizontalLines'

@@ -6,7 +6,7 @@ angular.module('common').directive('hpGrid',
 			restrict: 'E',
 			controllerAs: 'vm',
 			bindToController: true,
-			template: '<div ui-grid="vm.gridConfig.gridOptions" ui-grid-infinite-scroll ui-grid-importer></div>',
+			template: '<div style="height: 100%;" ui-grid="vm.gridConfig.gridOptions" ui-grid-infinite-scroll ui-grid-importer></div>',
 			scope: {
 				gridConfig: '='
 			},

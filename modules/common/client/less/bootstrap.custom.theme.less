@@ -28,14 +28,15 @@ body {
    border-bottom-width: 2px;
    border-bottom-color: @brand-primary;
    color: @brand-primary;
+  text-transform: uppercase;
  }
 .ui-grid-cell {
   border-right: none;
   border-bottom: 1px solid #d4d4d4;
 }
 .ui-grid-cell-contents {
-  white-space: pre-wrap;
-  word-break: break-word;
+  //white-space: pre-wrap;
+  //word-break: break-word;
 }
 .ui-grid-row:hover {
   background-color: lighten(@gray-light, 20%);
@@ -165,4 +166,21 @@ input[type=number] {
        transform: scaleY(1.0);
        -webkit-transform: scaleY(1.0);
      }
+}
+
+#mainMenu > li {
+  text-transform: uppercase;
+  font-weight: bold;
+
+  & > ul > li {
+    text-transform: none;
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+section[ui-view] {
+  height: 100%;
 }

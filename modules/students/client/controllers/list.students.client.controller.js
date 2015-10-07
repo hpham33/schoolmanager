@@ -31,7 +31,7 @@ angular.module('students').controller('ListStudentController',
                         },
                         {
                             name: 'referrer',
-                            displayName: 'Điện thoại phụ huynh',
+                            displayName: 'Điện thoại',
                             enableHiding: false
                         },
                         {
