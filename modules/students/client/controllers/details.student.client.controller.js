@@ -216,31 +216,124 @@ angular.module('students').controller('DetailsStudentController',
 				PaginationService.page(Transactions.query, searchParams)
 					.then(function (page) {
 						var dd = {
+                            footer: {
+                                columns: [
+                                    { text: '* Ngày tạo ' + new Date().toLocaleString() + ' *', alignment: 'center', fontSize: 10, color: '#666666' }
+                                ]
+                            },
 							content: [
-								'Chi tiết thu chi học sinh ' + $scope.details.data.name,
-								'Từ ngày ' + date2String($scope.gridConfig.searchParams.dateFrom) + ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo),
-								sprintf('Tổng thu: %s\nTổng chi: %s\nCòn lại: %s',
-									$filter('currencyFilter')($scope.statistic.totalAmountIn),
-									$filter('currencyFilter')($scope.statistic.totalAmountOut),
-									$filter('currencyFilter')($scope.statistic.balance)),
+                                { text:'TRƯỜNG THCS & THPT NGỌC LÂM', style: 'header' },
+                                { text:'BĐH KHU NỘI TRÚ', style: 'header' },
+                                '\r\n\r\n',
+                                { text:'BẢNG THỐNG KÊ CHI TIẾT THU CHI\r\n', style: 'title' },
+                                { text: 'Từ ngày ' +
+                                    date2String($scope.gridConfig.searchParams.dateFrom) +
+                                    ' đến ngày ' + date2String($scope.gridConfig.searchParams.dateTo) +
+                                    '\r\n\r\n\r\n', alignment: 'center' },
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Học sinh:',
+                                            width: '15%'
+                                        },
+                                        {
+                                            text: $scope.details.data.name,
+                                            bold: true,
+                                            width: '*'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Điện thoại:',
+                                            width: '15%'
+                                        },
+                                        {
+                                            text: $scope.details.data.referrer,
+                                            width: '*'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Địa chỉ:',
+                                            width: '15%'
+                                        },
+                                        {
+                                            text: $scope.details.data.address,
+                                            width: '*'
+                                        }
+                                    ]
+                                },
+                                '\r\n',
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Tổng thu:',
+                                            width: '70%',
+                                            alignment: 'right'
+                                        },
+                                        {
+                                            text: $filter('currencyFilter')($scope.statistic.totalAmountIn),
+                                            width: '30%',
+                                            alignment: 'right'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Tổng chi:',
+                                            width: '70%',
+                                            alignment: 'right'
+                                        },
+                                        {
+                                            text: $filter('currencyFilter')($scope.statistic.totalAmountOut),
+                                            width: '30%',
+                                            alignment: 'right'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columns: [
+                                        {
+                                            text: 'Còn lại:',
+                                            width: '70%',
+                                            alignment: 'right'
+                                        },
+                                        {
+                                            text: $filter('currencyFilter')($scope.statistic.balance),
+                                            width: '30%',
+                                            alignment: 'right'
+                                        }
+                                    ]
+                                },
+								'\r\n\r\n',
 								{
 									style: 'tableExample',
 									table: {
 										headerRows: 1,
+                                        widths: [63, 100, 100, '*'],
 										body: [
 											[
 												{
-													text: 'Ngày', style: 'tableHeader'
+													text: 'Ngày', style: 'tableHeader',
+                                                    width: 150
 												}, {
 													text: 'Thu',
 													alignment: 'right',
+                                                    width: 300,
 													style: 'tableHeader'
 												}, {
 													text: 'Chi',
+                                                    width: 300,
 													alignment: 'right',
 													style: 'tableHeader'
 												}, {
 													text: 'Ghi chú',
+                                                    width: '*',
 													style: 'tableHeader'
 												}
 											]
@@ -248,11 +341,24 @@ angular.module('students').controller('DetailsStudentController',
 									},
 									layout: 'lightHorizontalLines'
 								}
-							]
+							],
+                            styles: {
+                                header: {
+                                    fontSize: 14,
+                                    bold: true,
+                                    alignment: 'center'
+                                },
+                                title: {
+                                    fontSize: 23,
+                                    bold: true,
+                                    alignment: 'center'
+                                }
+
+                            }
 						};
 
 						_.forEach(page.data, function (transaction) {
-							dd.content[3].table.body.push(formatTransaction(transaction));
+							dd.content[13].table.body.push(formatTransaction(transaction));
 						});
 
 						pdfMake.createPdf(dd).open();
@@ -271,16 +377,16 @@ angular.module('students').controller('DetailsStudentController',
 				var result = [];
 				var createdDate = new Date(transaction.created);
 				var createdStr = sprintf('%s.%s.%s',
-					createdDate.getDate(),
-					createdDate.getMonth() + 1,
-					createdDate.getFullYear());
-				result.push(createdStr);
+                    _.padLeft(createdDate.getDate().toString(), 2, '0'),
+                    _.padLeft(createdDate.getMonth() + 1 + '', 2, '0'),
+                    _.padLeft(createdDate.getFullYear().toString(), 2, '0'));
+				result.push({text:createdStr, alignment: 'right', width: 150 });
 
 				var amountIn = $filter('amountFilter')(transaction, 'in');
-				result.push({text: amountIn, alignment: 'right'});
+				result.push({text: amountIn, alignment: 'right', width: 300 });
 
 				var amountOut = $filter('amountFilter')(transaction, 'out');
-				result.push({text: amountOut, alignment: 'right'});
+				result.push({text: amountOut, alignment: 'right', width: 300 });
 
 				result.push(transaction.description);
 				return result;
