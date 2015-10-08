@@ -21,7 +21,7 @@ angular.module('common').config(
                             initOptions.enableColumnMenus = false;
                             initOptions.infiniteScrollUp = false;
                             initOptions.infiniteScrollDown = true;
-                            initOptions.infiniteScrollRowsFromEnd = 10;
+                            initOptions.infiniteScrollRowsFromEnd = 15;
                             initOptions.enableHorizontalScrollbar = uiGridConstants.scrollbars.NEVER;
                             initOptions.rowHeight = 35;
                             return initOptions;
@@ -29,5 +29,5 @@ angular.module('common').config(
                         return gridOptions;
                     }]);
 
-            PaginationServiceProvider.defaults.pageSize = 20;
+            PaginationServiceProvider.defaults.pageSize = 40;
         }]);
