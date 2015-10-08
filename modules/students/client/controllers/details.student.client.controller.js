@@ -33,112 +33,108 @@ angular.module('students').controller('DetailsStudentController',
 			});
 
 			$scope.gridConfig = {
-                gridOptions : {
-                    enableGridMenu: userHasPermission,
-                    useExternalSorting: true,
-                    columnDefs: [
-                        {
-                            name: 'created',
-                            displayName: 'Ngày',
-                            cellFilter: 'date:\'dd.MM.yyyy\'',
-                            width: '80',
-                            enableHiding: false
-                        },
-                        {
-                            name: 'amountIn',
-                            displayName: 'Thu',
-                            headerCellClass: 'text-right',
-                            enableHiding: false,
-                            enableSorting: false,
-                            cellTemplate:
-                            '<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
-                                '<div>{{ row.entity | amountFilter:\'in\' }}</div>' +
-                            '</div>'
-                        },
-                        {
-                            name: 'amountOut',
-                            displayName: 'Chi',
-                            headerCellClass: 'text-right',
-                            enableHiding: false,
-                            enableSorting: false,
-                            cellTemplate:
-                            '<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
-                                '<div>{{ row.entity | amountFilter:\'out\' }}</div>' +
-                            '</div>'
-                        },
-                        {
-                            name: 'description',
-                            displayName: 'Ghi chú',
-                            width: '40%',
-                            enableHiding: false,
-                            enableSorting: false
-                        },
-                        {
-                            name: 'action',
-                            displayName: '',
-                            width: '100',
-                            enableHiding: false,
-                            enableSorting: false,
-                            buttons: [{
-                                type: 'EDIT',
-                                title: 'Thay đổi thông tin chi tiêu',
-                                execute: function(row) {
-                                    $scope.openEditTransactionDialog(row);
-                                },
-	                            condition: function(row) {
-		                            return Authentication.isAdmin() ||
-			                            Authentication.user._id === row.entity.user._id;
-	                            }
-                            }, {
-                                type: 'DELETE',
-                                title: 'Xóa khoản chi tiêu',
-                                execute: function(row) {
-                                    $scope.openDeleteTransactionDialog(row);
-                                },
-	                            condition: function(row) {
-		                            return Authentication.isAdmin() ||
-			                            Authentication.user._id === row.entity.user._id;
-	                            }
-                            }]
-                        }
-                    ],
-                    data: [],
-                    minRowsToShow: 6,
-                    importerDataAddCallback: function (grid, newObjects) {
-	                    $scope.gridConfig.showSpinner();
-                        //$log.info(newObjects);
-                        Transactions.saveAll({}, newObjects).$promise.then(function (response) {
-                            $scope.findTransaction();
-                        }).finally(function() {
-	                        $scope.gridConfig.removeSpinner();
-                        });
-                    },
-	                importerObjectCallback: function (grid, newObject) {
-		                if (newObject.created) {
-			                newObject.created = new Date(newObject.created);
-			                newObject.created.setHours(0);
-			                newObject.created.setMinutes(0);
-			                newObject.created.setSeconds(0);
-			                newObject.created.setMilliseconds(0);
-		                }
-		                if (newObject.amountIn) {
-			                newObject.amount = newObject.amountIn;
-			                newObject.type = 'in';
-		                }
-		                if (newObject.amountOut) {
-			                newObject.amount = newObject.amountOut;
-			                newObject.type = 'out';
-		                }
-		                delete newObject.amountIn;
-		                delete newObject.amountOut;
-		                newObject.student = $stateParams.studentId;
+				gridOptions: {
+					enableGridMenu: userHasPermission,
+					useExternalSorting: true,
+					columnDefs: [
+						{
+							name: 'created',
+							displayName: 'Ngày',
+							cellFilter: 'date:\'dd.MM.yyyy\'',
+							width: '80',
+							enableHiding: false
+						},
+						{
+							name: 'amountIn',
+							displayName: 'Thu',
+							headerCellClass: 'text-right',
+							enableHiding: false,
+							enableSorting: false,
+							cellTemplate: '<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
+							'<div>{{ row.entity | amountFilter:\'in\' }}</div>' +
+							'</div>'
+						},
+						{
+							name: 'amountOut',
+							displayName: 'Chi',
+							headerCellClass: 'text-right',
+							enableHiding: false,
+							enableSorting: false,
+							cellTemplate: '<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
+							'<div>{{ row.entity | amountFilter:\'out\' }}</div>' +
+							'</div>'
+						},
+						{
+							name: 'description',
+							displayName: 'Ghi chú',
+							width: '40%',
+							enableHiding: false,
+							enableSorting: false
+						},
+						{
+							name: 'action',
+							displayName: '',
+							width: '100',
+							enableHiding: false,
+							enableSorting: false,
+							buttons: [{
+								type: 'EDIT',
+								title: 'Thay đổi thông tin chi tiêu',
+								execute: function (row) {
+									$scope.openEditTransactionDialog(row);
+								},
+								condition: function (row) {
+									return Authentication.isAdmin() ||
+										Authentication.user._id === row.entity.user._id;
+								}
+							}, {
+								type: 'DELETE',
+								title: 'Xóa khoản chi tiêu',
+								execute: function (row) {
+									$scope.openDeleteTransactionDialog(row);
+								},
+								condition: function (row) {
+									return Authentication.isAdmin() ||
+										Authentication.user._id === row.entity.user._id;
+								}
+							}]
+						}
+					],
+					data: [],
+					importerDataAddCallback: function (grid, newObjects) {
+						$scope.gridConfig.showSpinner();
+						Transactions.saveAll({}, newObjects).$promise.then(function (response) {
+							$scope.findTransaction();
+						}).finally(function () {
+							$scope.gridConfig.removeSpinner();
+						});
+					},
+					importerObjectCallback: function (grid, newObject) {
+						if (newObject.created) {
+							newObject.created = new Date(newObject.created);
+							newObject.created.setHours(0);
+							newObject.created.setMinutes(0);
+							newObject.created.setSeconds(0);
+							newObject.created.setMilliseconds(0);
+						}
+						if (newObject.amountIn) {
+							newObject.amount = newObject.amountIn;
+							newObject.type = 'in';
+						}
+						if (newObject.amountOut) {
+							newObject.amount = newObject.amountOut;
+							newObject.type = 'out';
+						}
+						delete newObject.amountIn;
+						delete newObject.amountOut;
+						newObject.student = $stateParams.studentId;
 
-		                return newObject;
-	                }
-                },
-                resource: Transactions,
-                searchParams: _.clone(defaultFilterData)
-            };
+						return newObject;
+					}
+				},
+				resource: Transactions,
+				searchParams: _.clone(defaultFilterData)
+			};
 
 			$scope.currentUserCanEditStudent = function () {
 				return Authentication.isAdmin() ||
@@ -209,9 +205,9 @@ angular.module('students').controller('DetailsStudentController',
 			};
 
 			$scope.findTransaction = function () {
-                var findPromise = $scope.gridConfig.executeSearch();
-                var totalAmountPromise = getTotalAmount();
-                return $q.all([findPromise, totalAmountPromise]);
+				var findPromise = $scope.gridConfig.executeSearch();
+				var totalAmountPromise = getTotalAmount();
+				return $q.all([findPromise, totalAmountPromise]);
 			};
 
 			$scope.exportPDF = function () {
@@ -233,21 +229,21 @@ angular.module('students').controller('DetailsStudentController',
 										headerRows: 1,
 										body: [
 											[
-                                                {
-                                                    text: 'Ngày', style: 'tableHeader'
-                                                }, {
-												    text: 'Thu',
-                                                    alignment: 'right',
-												    style: 'tableHeader'
-											    }, {
-                                                    text: 'Chi',
-                                                    alignment: 'right',
-                                                    style: 'tableHeader'
-                                                }, {
-												    text: 'Ghi chú',
-												    style: 'tableHeader'
-											    }
-                                            ]
+												{
+													text: 'Ngày', style: 'tableHeader'
+												}, {
+													text: 'Thu',
+													alignment: 'right',
+													style: 'tableHeader'
+												}, {
+													text: 'Chi',
+													alignment: 'right',
+													style: 'tableHeader'
+												}, {
+													text: 'Ghi chú',
+													style: 'tableHeader'
+												}
+											]
 										]
 									},
 									layout: 'lightHorizontalLines'
@@ -271,24 +267,24 @@ angular.module('students').controller('DetailsStudentController',
 				});
 			}
 
-            function formatTransaction(transaction) {
-                var result = [];
-	            var createdDate = new Date(transaction.created);
-                var createdStr = sprintf('%s.%s.%s',
-	                createdDate.getDate(),
-	                createdDate.getMonth() + 1,
-	                createdDate.getFullYear());
-                result.push(createdStr);
+			function formatTransaction(transaction) {
+				var result = [];
+				var createdDate = new Date(transaction.created);
+				var createdStr = sprintf('%s.%s.%s',
+					createdDate.getDate(),
+					createdDate.getMonth() + 1,
+					createdDate.getFullYear());
+				result.push(createdStr);
 
-                var amountIn = $filter('amountFilter')(transaction, 'in');
-                result.push({ text: amountIn, alignment: 'right' });
+				var amountIn = $filter('amountFilter')(transaction, 'in');
+				result.push({text: amountIn, alignment: 'right'});
 
-	            var amountOut = $filter('amountFilter')(transaction, 'out');
-	            result.push({ text: amountOut, alignment: 'right' });
+				var amountOut = $filter('amountFilter')(transaction, 'out');
+				result.push({text: amountOut, alignment: 'right'});
 
-                result.push(transaction.description);
-                return result;
-            }
+				result.push(transaction.description);
+				return result;
+			}
 
 			function date2String(date) {
 				return sprintf('%s.%s.%s',
@@ -297,5 +293,5 @@ angular.module('students').controller('DetailsStudentController',
 					date.getFullYear());
 			}
 
-            getTotalAmount();
+			getTotalAmount();
 		}]);

@@ -12,17 +12,17 @@ acl = new acl(new acl.memoryBackend());
  * Invoke Students Permissions
  */
 exports.invokeRolesPolicies = function () {
-  acl.allow([{
-    roles: ['admin'],
-    allows: [{
-      resources: '/api/statistics',
-      permissions: '*'
-    }]
-  }, {
-    roles: ['user'],
-    allows: [{
-      resources: '/api/statistics',
-      permissions: ['get', 'post']
-    }]
-  }]);
+	acl.allow([{
+		roles: ['admin'],
+		allows: [{
+			resources: '/api/statistics',
+			permissions: '*'
+		}]
+	}, {
+		roles: ['user'],
+		allows: [{
+			resources: '/api/statistics',
+			permissions: ['get', 'post']
+		}]
+	}]);
 };

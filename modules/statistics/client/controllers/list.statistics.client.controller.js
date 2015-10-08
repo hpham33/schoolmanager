@@ -27,7 +27,7 @@ angular.module('statistics').controller('ListStatisticController',
 							buttons: [{
 								type: 'LINK',
 								title: 'Xem chi tiết thu chi',
-								text: function(row) {
+								text: function (row) {
 									return row.entity._id.name;
 								},
 								execute: function (row) {
@@ -40,9 +40,8 @@ angular.module('statistics').controller('ListStatisticController',
 							displayName: 'Tổng thu',
 							headerCellClass: 'text-right',
 							enableHiding: false,
-							cellTemplate:
-							'<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
-								'<div>{{ row.entity.totalAmountIn | currencyFilter }}</div>' +
+							cellTemplate: '<div class="ui-grid-cell-contents text-right text-warning" style="padding-right: 30px;">' +
+							'<div>{{ row.entity.totalAmountIn | currencyFilter }}</div>' +
 							'</div>'
 						},
 						{
@@ -50,9 +49,8 @@ angular.module('statistics').controller('ListStatisticController',
 							displayName: 'Tổng chi',
 							headerCellClass: 'text-right',
 							enableHiding: false,
-							cellTemplate:
-							'<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
-								'<div>{{ row.entity.totalAmountOut | currencyFilter }}</div>' +
+							cellTemplate: '<div class="ui-grid-cell-contents text-right text-info" style="padding-right: 30px;">' +
+							'<div>{{ row.entity.totalAmountOut | currencyFilter }}</div>' +
 							'</div>'
 						},
 						{
@@ -60,14 +58,14 @@ angular.module('statistics').controller('ListStatisticController',
 							displayName: 'Còn lại',
 							headerCellClass: 'text-right',
 							enableHiding: false,
-							cellTemplate:
-							'<div class="ui-grid-cell-contents text-right text-danger" style="padding-right: 30px;">' +
-								'<div>{{ row.entity.balance | currencyFilter }}</div>' +
+							cellTemplate: '<div class="ui-grid-cell-contents text-right text-danger" style="padding-right: 30px;">' +
+							'<div>{{ row.entity.balance | currencyFilter }}</div>' +
 							'</div>'
 						}
 					],
 					data: [],
-					importerDataAddCallback: function (grid, newObjects) {}
+					importerDataAddCallback: function (grid, newObjects) {
+					}
 				},
 				resource: Statistics,
 				searchParams: _.clone(defaultFilterData)
@@ -88,7 +86,7 @@ angular.module('statistics').controller('ListStatisticController',
 				return $q.all([findPromise, totalAmountPromise]);
 			};
 
-			$scope.getTotalAmount = function() {
+			$scope.getTotalAmount = function () {
 				return Statistics.totalAmount($scope.gridConfig.searchParams).$promise.then(function (response) {
 					$scope.statistic.totalAmountIn = response.totalAmountIn || 0;
 					$scope.statistic.totalAmountOut = response.totalAmountOut || 0;
@@ -111,22 +109,22 @@ angular.module('statistics').controller('ListStatisticController',
 								headerRows: 1,
 								body: [
 									[
-                                        {
-                                            text: 'Học sinh', style: 'tableHeader'
-                                        }, {
-										    text: 'Tổng thu',
-                                            alignment: 'right',
-										    style: 'tableHeader'
-									    }, {
-                                            text: 'Tổng chi',
-                                            alignment: 'right',
-                                            style: 'tableHeader'
-                                        }, {
-										    text: 'Còn lại',
-                                            alignment: 'right',
-										    style: 'tableHeader'
-									    }
-                                    ]
+										{
+											text: 'Học sinh', style: 'tableHeader'
+										}, {
+											text: 'Tổng thu',
+											alignment: 'right',
+											style: 'tableHeader'
+										}, {
+											text: 'Tổng chi',
+											alignment: 'right',
+											style: 'tableHeader'
+										}, {
+											text: 'Còn lại',
+											alignment: 'right',
+											style: 'tableHeader'
+										}
+									]
 								]
 							},
 							layout: 'lightHorizontalLines'
@@ -153,13 +151,13 @@ angular.module('statistics').controller('ListStatisticController',
 				result.push(statistic._id.name);
 
 				var amountIn = $filter('currencyFilter')(statistic.totalAmountIn);
-				result.push({ text: amountIn, alignment: 'right' });
+				result.push({text: amountIn, alignment: 'right'});
 
 				var amountOut = $filter('currencyFilter')(statistic.totalAmountOut);
-				result.push({ text: amountOut, alignment: 'right' });
+				result.push({text: amountOut, alignment: 'right'});
 
 				var balance = $filter('currencyFilter')(statistic.balance);
-				result.push({ text: balance, alighment: 'right' });
+				result.push({text: balance, alighment: 'right'});
 
 				return result;
 			}
