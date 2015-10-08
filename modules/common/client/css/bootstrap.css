@@ -7622,10 +7622,10 @@ input[type=number] {
 }
 .spinner-content > div {
   background-color: #2196f3;
-  height: 33px;
-  width: 6px;
+  height: 80px;
+  width: 12px;
   display: inline-block;
-  margin: 0 1px;
+  margin: 0 2px;
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
@@ -7680,4 +7680,11 @@ body {
 }
 section[ui-view] {
   height: 100%;
+}
+.ui-grid-menu-button {
+  background-color: white;
+}
+.ui-grid-menu-button:hover i {
+  transition: all 0.2s ease;
+  color: #2196f3;
 }

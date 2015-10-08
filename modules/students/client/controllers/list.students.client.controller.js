@@ -100,6 +100,7 @@ angular.module('students').controller('ListStudentController',
 						});
 					},
 					importerDataAddCallback: function (grid, newObjects) {
+                        //$log.info(newObjects);
 						$scope.gridConfig.showSpinner();
 						Students.saveAll({}, newObjects).$promise.then(function (response) {
 							$scope.find();
@@ -131,6 +132,12 @@ angular.module('students').controller('ListStudentController',
 						} else {
 							delete newObject.gender;
 						}
+                        if (newObject.referrer) {
+                            var referrerStr = newObject.referrer.toString();
+                            if (referrerStr.length === 9 || referrerStr.length === 10) {
+                                newObject.referrer = '0' + referrerStr;
+                            }
+                        }
 						return newObject;
 					},
 					data: []

@@ -1,5 +1,5 @@
-<form name="mainForm" class="" novalidate>
-    <div class="col-xs-2" style="margin-right: 20px;">
+<div ng-form="mainForm" class="" novalidate>
+    <div class="col-xs-2">
         <!--<label class="control-label">Từ ngày &nbsp;</label>-->
         <hp-date-picker
                 model="vm.filterData.dateFrom"
@@ -8,7 +8,11 @@
         </hp-date-picker>
     </div>
 
-    <div class="col-xs-2" style="margin-right: 20px;" show-errors>
+    <div class="col-xs-1">
+        <h6>đến</h6>
+    </div>
+
+    <div class="col-xs-2">
         <!--<label class="control-label">Đến ngày &nbsp;</label>-->
         <hp-date-picker
                 model="vm.filterData.dateTo"
@@ -18,7 +22,7 @@
     </div>
 
     <div class="col-xs-3">
-        <div class="btn-group" style="margin-right: 20px;">
+        <div class="btn-group">
             <button type="button" class="btn btn-default" hp-click-and-wait="vm.search()"
                     title="Tìm" ng-disabled="mainForm.$invalid">
                 <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
@@ -37,5 +41,5 @@
             </ul>
         </div>
     </div>
-    <div class="col-xs-5" ng-transclude></div>
-</form>
+    <div class="col-xs-4" ng-transclude></div>
+</div>
