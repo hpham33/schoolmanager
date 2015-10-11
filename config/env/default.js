@@ -12,8 +12,8 @@ module.exports = {
 	// Session Cookie settings
 	sessionCookie: {
 		// session expiration is set by default to 24 hours
-		//maxAge: 24 * (60 * 60 * 1000),
-		maxAge: 20 * (60 * 1000), // 20 minutes
+		maxAge: 12 * (60 * 60 * 1000),
+		//maxAge: 20 * (60 * 1000), // 20 minutes
 		// httpOnly flag makes sure the cookie is only accessed
 		// through the HTTP protocol and not JS/browser
 		httpOnly: true,
