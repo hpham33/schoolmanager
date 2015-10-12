@@ -8,21 +8,23 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-6 margin-top-20">
-            <input type="text" class="form-control" placeholder="Nhập tên hoặc mã học sinh"
-                   ng-model="gridConfig.searchParams.filterString" ng-enter="find()">
-        </div>
-
-        <div class="col-xs-4 margin-top-20">
-            <div class="btn-group">
-                <button class="btn btn-default" type="button"
-                        hp-click-and-wait="reset()" title="Tìm tất cả học sinh">
-                    <i class="glyphicon glyphicon-refresh"></i>
-                </button>
-                <button class="btn btn-default" type="button" title="Tìm học sinh"
-                        hp-click-and-wait="find()">
-                    <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-                </button>
+        <div class="col-xs-10 margin-top-20">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Nhập tên hoặc mã học sinh"
+                       ng-model="gridConfig.searchParams.filterString" ng-change="find()"
+                       ng-model-options="{ debounce: 500 }"
+                      style="position: relative; padding-right: 15px;">
+                <span class="input-group-btn" style="position: absolute; right: 15px;">
+                    <button class="btn btn-default" type="button"
+                            style="box-shadow: none; padding-left: 3px; padding-right: 3px; background: transparent;"
+                            ng-if="gridConfig.searchParams.filterString"
+                            ng-click="reset()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </span>
             </div>
         </div>
 

@@ -1,10 +1,10 @@
-<div ng-form="mainForm" class="" novalidate>
+<div ng-form="mainForm" novalidate>
     <div class="col-xs-2">
-        <!--<label class="control-label">Từ ngày &nbsp;</label>-->
         <hp-date-picker
                 model="vm.filterData.dateFrom"
                 name="dateFrom"
-                is-required="true">
+                is-required="true"
+                on-change="vm.executeSearch()">
         </hp-date-picker>
     </div>
 
@@ -12,23 +12,20 @@
         <h6>đến</h6>
     </div>
 
-    <div class="col-xs-2">
-        <!--<label class="control-label">Đến ngày &nbsp;</label>-->
+    <div class="col-xs-3">
         <hp-date-picker
                 model="vm.filterData.dateTo"
                 name="dateTo"
-                is-required="true">
+                is-required="true"
+                on-change="vm.executeSearch()">
         </hp-date-picker>
-    </div>
-
-    <div class="col-xs-3">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default" hp-click-and-wait="vm.search()"
-                    title="Tìm" ng-disabled="mainForm.$invalid">
-                <i class="glyphicon glyphicon-search"></i>&nbsp;Tìm
-            </button>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+        <div class="input-group-btn" style="position: absolute; right: 15px;">
+            <button class="btn btn-default dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style="box-shadow: none; padding-left: 3px; padding-right: 3px; background: transparent;">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -41,5 +38,6 @@
             </ul>
         </div>
     </div>
-    <div class="col-xs-4" ng-transclude></div>
+
+    <div class="col-xs-6" ng-transclude></div>
 </div>

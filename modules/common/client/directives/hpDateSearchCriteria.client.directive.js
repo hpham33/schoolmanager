@@ -12,8 +12,22 @@ angular.module('common').directive('hpDateSearchCriteria',
 				filterData: '=',
 				search: '&'
 			},
-			controller: ['hpUtils', function(hpUtils) {
+			controller: ['$log', 'hpUtils', '$scope', function($log, hpUtils, $scope) {
 				var vm = this;
+				$scope.$on('dateChange', function(params) {
+					if (params.name === 'dateFrom') {
+						vm.filterData.dateFrom = params.newDate;
+					} else if (params.name === 'dateTo') {
+						vm.filterData.dateTo = params.newDate;
+					}
+				});
+
+				vm.executeSearch = function() {
+					if ($scope.mainForm && $scope.mainForm.$valid) {
+						vm.search();
+					}
+				};
+
 				vm.findCurrent = function() {
 					vm.filterData.dateFrom = hpUtils.firstDayOfCurrentMonth();
 					vm.filterData.dateTo =hpUtils.lastDayOfCurrentMonth();
