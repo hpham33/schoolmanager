@@ -13,29 +13,31 @@
     </div>
 
     <div class="col-xs-3">
-        <hp-date-picker
-                model="vm.filterData.dateTo"
-                name="dateTo"
-                is-required="true"
-                on-change="vm.executeSearch()">
-        </hp-date-picker>
-        <div class="input-group-btn" style="position: absolute; right: 15px;">
-            <button class="btn btn-default dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    style="box-shadow: none; padding-left: 3px; padding-right: 3px; background: transparent;">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="" ng-click="vm.findCurrent()">Tìm tháng hiện tại</a></li>
-                <li><a href="" ng-click="vm.findLastMonth()">Tìm tháng trước</a></li>
-                <li><a href="" ng-click="vm.findNextMonth()">Tìm tháng tới</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="" ng-click="vm.findCurrentYear()">Tìm năm hiện tại</a></li>
-            </ul>
+        <div class="input-group">
+            <hp-date-picker
+                    model="vm.filterData.dateTo"
+                    name="dateTo"
+                    is-required="true"
+                    on-change="vm.executeSearch()">
+            </hp-date-picker>
+            <div class="input-group-btn" style="position: absolute; right: 15px;">
+                <button class="btn btn-default dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        style="box-shadow: none; padding-left: 3px; padding-right: 3px; background: transparent;">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="" ng-click="vm.findCurrent()">Tìm tháng hiện tại</a></li>
+                    <li><a href="" ng-click="vm.findLastMonth()">Tìm tháng trước</a></li>
+                    <li><a href="" ng-click="vm.findNextMonth()">Tìm tháng tới</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" ng-click="vm.findCurrentYear()">Tìm năm hiện tại</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 

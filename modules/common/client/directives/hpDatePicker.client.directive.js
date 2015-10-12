@@ -14,7 +14,7 @@ angular.module('common').directive('hpDatePicker',
 				name: '@',
 				onChange: '&'
 			},
-			controller: ['$log', '$scope', function ($log, $scope) {
+			controller: ['$log', '$rootScope', function ($log, $rootScope) {
 				var vm = this;
 				vm.name = vm.name || 'date';
 				vm.status = {
@@ -22,7 +22,7 @@ angular.module('common').directive('hpDatePicker',
 				};
 
 				vm.dateChange = function (date) {
-					$scope.$broadcast('dateChange', {name: vm.name, newDate: date});
+                    $rootScope.$emit('dateChange', {fieldName: vm.name, newDate: date});
 					if (vm.onChange) {
 						vm.onChange();
 					}

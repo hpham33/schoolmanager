@@ -12,12 +12,12 @@ angular.module('common').directive('hpDateSearchCriteria',
 				filterData: '=',
 				search: '&'
 			},
-			controller: ['$log', 'hpUtils', '$scope', function($log, hpUtils, $scope) {
+			controller: ['$log', 'hpUtils', '$rootScope', '$scope', function($log, hpUtils, $rootScope, $scope) {
 				var vm = this;
-				$scope.$on('dateChange', function(params) {
-					if (params.name === 'dateFrom') {
+                $rootScope.$on('dateChange', function(events, params) {
+					if (params.fieldName === 'dateFrom') {
 						vm.filterData.dateFrom = params.newDate;
-					} else if (params.name === 'dateTo') {
+					} else if (params.fieldName === 'dateTo') {
 						vm.filterData.dateTo = params.newDate;
 					}
 				});
