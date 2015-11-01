@@ -12,6 +12,12 @@ angular.module('students').controller('ListStudentController',
 					enableGridMenu: $scope.userHasPermission,
 					useExternalSorting: true,
 					columnDefs: [
+                        {
+                            name: 'sequence',
+                            displayName: 'STT',
+                            enableHiding: false,
+                            width: '50'
+                        },
 						{
 							name: 'studentId',
 							displayName: 'Mã số',

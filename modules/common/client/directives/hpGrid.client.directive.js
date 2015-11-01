@@ -52,6 +52,9 @@ angular.module('common').directive('hpGrid',
 						.then(function (page) {
 							vm.page = page;
 							vm.gridConfig.gridOptions.data = page.data;
+                            angular.forEach(vm.gridConfig.gridOptions.data, function( row, index){
+                                row.sequence = index + 1;
+                            });
 							vm.gridApi.infiniteScroll.resetScroll(false, vm.page.hasNext());
 						});
 				};
@@ -63,6 +66,9 @@ angular.module('common').directive('hpGrid',
 						vm.page.next().then(function (page) {
 							vm.gridApi.infiniteScroll.saveScrollPercentage();
 							vm.page = page;
+                            angular.forEach(page.data, function(row, index) {
+                                row.sequence = index + 1 + vm.gridConfig.gridOptions.data.length;
+                            });
 							vm.gridConfig.gridOptions.data = vm.gridConfig.gridOptions.data.concat(page.data);
 							vm.gridApi.infiniteScroll.dataLoaded(false, vm.page.hasNext());
 						}).finally(function () {

@@ -93,7 +93,7 @@ exports.list = function (req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			Student.populate(result, {path: '_id', model: 'Student', select: 'name'}, function (err, response) {
+			Student.populate(result, {path: '_id', model: 'Student', select: 'name studentId'}, function (err, response) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)

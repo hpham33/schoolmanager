@@ -20,9 +20,31 @@ angular.module('statistics').controller('ListStatisticController',
 					useExternalSorting: false,
 					enableGridMenu: false,
 					columnDefs: [
+                        {
+                            name: 'sequence',
+                            displayName: 'STT',
+                            enableHiding: false,
+                            width: '50'
+                        },
+                        {
+                            name: '_studentId',
+                            displayName: 'Mã số',
+                            enableHiding: false,
+                            buttons: [{
+                                type: 'LINK',
+                                title: 'Xem chi tiết thu chi',
+                                text: function (row) {
+                                    return row.entity._id.studentId;
+                                },
+                                execute: function (row) {
+                                    $scope.goToDetailsStudent(row.entity._id._id);
+                                }
+                            }],
+                            width: '80'
+                        },
 						{
 							name: '_id',
-							displayName: 'Học sinh',
+							displayName: 'Họ và tên',
 							enableHiding: false,
 							buttons: [{
 								type: 'LINK',
@@ -179,25 +201,34 @@ angular.module('statistics').controller('ListStatisticController',
                             style: 'tableExample',
                             table: {
                                 headerRows: 1,
-                                widths: ['*', '20%', '20%', '20%'],
+                                widths: [20, 40, '*', '20%', '20%', '20%'],
                                 body: [
                                     [
                                         {
-                                            text: 'Học sinh', style: 'tableHeader',
+                                            text: 'STT', style: 'tableHeader'
+                                        },
+                                        {
+                                            text: 'Mã số', style: 'tableHeader'
+                                        },
+                                        {
+                                            text: 'Họ và tên', style: 'tableHeader',
                                             width: 150
-                                        }, {
-                                        text: 'Tổng thu',
-                                        alignment: 'right',
-                                        style: 'tableHeader'
-                                    }, {
-                                        text: 'Tổng chi',
-                                        alignment: 'right',
-                                        style: 'tableHeader'
-                                    }, {
-                                        text: 'Còn lại',
-                                        alignment: 'right',
-                                        style: 'tableHeader'
-                                    }
+                                        },
+                                        {
+                                            text: 'Tổng thu',
+                                            alignment: 'right',
+                                            style: 'tableHeader'
+                                        },
+                                        {
+                                            text: 'Tổng chi',
+                                            alignment: 'right',
+                                            style: 'tableHeader'
+                                        },
+                                        {
+                                            text: 'Còn lại',
+                                            alignment: 'right',
+                                            style: 'tableHeader'
+                                        }
                                     ]
                                 ]
                             },
@@ -214,6 +245,12 @@ angular.module('statistics').controller('ListStatisticController',
                             fontSize: 23,
                             bold: true,
                             alignment: 'center'
+                        },
+                        tableHeader: {
+                            fontSize: 10
+                        },
+                        tableBody: {
+                            fontSize: 10
                         }
 
                     },
@@ -222,8 +259,8 @@ angular.module('statistics').controller('ListStatisticController',
                     }
                 };
 
-				_.forEach($scope.gridConfig.gridOptions.data, function (statistic) {
-					dd.content[6].table.body.push(formatStatistic(statistic));
+				_.forEach($scope.gridConfig.gridOptions.data, function (statistic, index) {
+					dd.content[6].table.body.push(formatStatistic(statistic, index));
 				});
 
 				pdfMake.createPdf(dd).open();
@@ -236,18 +273,20 @@ angular.module('statistics').controller('ListStatisticController',
 					date.getFullYear());
 			}
 
-			function formatStatistic(statistic) {
+			function formatStatistic(statistic, index) {
 				var result = [];
-				result.push(statistic._id.name);
+                result.push(index + 1 + '');
+                result.push({ text: statistic._id.studentId, style: 'tableBody' });
+				result.push({ text: statistic._id.name, style: 'tableBody' });
 
 				var amountIn = $filter('currencyFilter')(statistic.totalAmountIn);
-				result.push({ text: amountIn, alignment: 'right' });
+				result.push({ text: amountIn, alignment: 'right', style: 'tableBody' });
 
 				var amountOut = $filter('currencyFilter')(statistic.totalAmountOut);
-				result.push({ text: amountOut, alignment: 'right' });
+				result.push({ text: amountOut, alignment: 'right', style: 'tableBody' });
 
 				var balance = $filter('currencyFilter')(statistic.balance);
-				result.push({ text: balance, alignment: 'right' });
+				result.push({ text: balance, alignment: 'right', style: 'tableBody' });
 
 				return result;
 			}
